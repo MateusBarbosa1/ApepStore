@@ -12,5 +12,6 @@ app.set("views", path.join(__dirname, "./views"));
 
 require("./routes/home")(app);
 require("./routes/auth")(app);
+require("./routes/camisetas")(app);
 
 app.listen(3000, () => console.log("server running on port 3000!"));
