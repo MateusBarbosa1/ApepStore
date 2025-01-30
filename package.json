@@ -4,7 +4,7 @@
   "description": "Uma loja virtual de roupas",
   "main": "server.js",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "npx jest --watchAll",
     "dev": "nodemon server.js"
   },
   "keywords": [],

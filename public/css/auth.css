@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+.rota {
+  padding: 200px 0 20px 0;
+  display: flex;
+  justify-content: center;
+}
+.rota h2 {
+  font-family: "bebas neue", sans-serif;
+  font-size: 35px;
+}
+.form-section {
+  padding: 20px;
+  display: flex;
+  width: 50%;
+  margin: 0 25%;
+  justify-content: center;
+}
+.form-section form input {
+  outline: none;
+  width: 100%;
+  margin: 15px 0;
+  padding: 5px 5px;
+}
+.form-section form span {
+  padding: 10px 0;
+  font-size: 14px;
+}
+.form-section form input[type="submit"] {
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 0;
+}
+.form-section form input[type="submit"]:hover {
+  border: none;
+  background: rgb(24, 24, 24);
+  color: white;
+  transition: 1s;
+  padding: 10px 0;
+}
+@media screen and (max-width: 660px) {
+  .form-section {
+    padding: 20px;
+    display: flex;
+    width: 90%;
+    margin: 0 5%;
+    justify-content: center;
+  }
+  .form-section p {
+    font-size: 14px;
+  }
+}
