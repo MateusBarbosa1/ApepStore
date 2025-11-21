@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "npx jest --watchAll",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "infra": "docker compose -f infra/docker-compose.yml up -d"
   },
   "keywords": [],
   "author": "Barbosa Dev - Mateus Barbosa",
@@ -14,8 +15,11 @@
     "jest": "^29.7.0"
   },
   "dependencies": {
+    "@prisma/client": "^7.0.0",
     "body-parser": "^1.20.3",
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "nodemon": "^3.1.11",
+    "prisma": "^7.0.0"
   }
 }
