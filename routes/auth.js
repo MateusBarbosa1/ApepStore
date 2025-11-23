@@ -6,4 +6,7 @@ module.exports = function (app) {
   app.get("/register", (req, res) => {
     authControllers.renderRegisterPage(app, req, res);
   });
+  app.post("/register", (req,res) => {
+    authControllers.createUser(app,req,res);
+  });
 };
