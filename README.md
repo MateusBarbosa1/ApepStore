@@ -17,18 +17,18 @@
 
 ## 🧱 Arquitetura e Estrutura de Pastas
 
-/
-├── controllers/ # Lógica de controle para cada recurso (usuários, produtos, etc.)
-├── infra/ # Configuração de infraestrutura (banco de dados, Prisma)
-├── models/ # Definição de modelos de dados
-├── prisma/ # Schema Prisma e migrations
-├── routes/ # Definição das rotas Express
-├── public/ # Arquivos públicos estáticos (CSS, imagens, etc.)
-├── views/ # Templates EJS para renderização do front-end
-├── tests/ # Testes com Jest
-├── .env.developer # Variáveis de ambiente para desenvolvimento
-├── server.js # Ponto de entrada da aplicação
-└── package.json
+/  
+├── controllers/  
+├── infra/  
+├── models/  
+├── prisma/  
+├── routes/  
+├── public/  
+├── views/   
+├── tests/  
+├── .env.developer  
+├── server.js  
+└── package.json  
 
 ---
 
