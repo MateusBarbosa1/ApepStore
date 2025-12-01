@@ -1,10 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require('fs');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const path = require("path");
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
@@ -15,8 +17,16 @@ const routesPath = path.join(__dirname, 'routes');
 
 fs.readdirSync(routesPath).forEach((file) => {
     if(file.endsWith('.js')) {
-        require(path.join(routesPath, file))(app);
+        try {
+            require(path.join(routesPath, file))(app);
+            console.log("Loaded route:", file);
+        } catch (err) {
+            console.error("Erro ao carregar rota:", file);
+            console.error(err);
+        }
     }
 });
 
-app.listen(3000, () => console.log("server running on port 3000!"));
+app.listen(3000, "127.0.0.1", () => {
+  console.log("server running on port 3000!");
+});

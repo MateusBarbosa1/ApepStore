@@ -88,6 +88,11 @@
 
     <section class="form-section">
       <form action="" method="post">
+        <% if(err) { %> 
+          <div class="alert alert-danger" role="alert">
+            <%= err %>
+          </div>
+        <% } %>
         <span>NOME</span>
         <input type="text" name="nome" placeholder="ex.: Maria Dolores" />
         <span>E-MAIL</span>

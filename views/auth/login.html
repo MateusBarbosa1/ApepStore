@@ -88,6 +88,11 @@
 
     <section class="form-section">
       <form action="" method="post">
+        <% if(err) { %> 
+          <div class="alert alert-danger" role="alert">
+            <%= err %>
+          </div>
+        <% } %>
         <span>E-MAIL</span>
         <input
           type="email"

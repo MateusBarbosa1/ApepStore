@@ -1,4 +1,4 @@
-module.exports.renderHome = async function(app,req,res) {
+module.exports.renderPage = async function(app,req,res) {
     const { jwtDecode } = require('jwt-decode');
     const token = req.cookies['token'];
 
@@ -9,8 +9,8 @@ module.exports.renderHome = async function(app,req,res) {
         const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
         const firstName = usuario[0].nome.split(' ')[0];
 
-        res.render('home/index', {nome: firstName});
+        res.render('account/index', {nome: firstName});
     } else {
-        res.render('home/index', {nome: false});
+        res.render('account/index', {nome: false});
     }
 }

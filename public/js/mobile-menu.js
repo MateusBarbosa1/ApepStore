@@ -1,23 +1,25 @@
 let buttonClose = document.querySelector(".menu span");
+let menu = document.querySelector(".menu");
 
+// Abrir o menu
 document.querySelector(".icon-mobile span").addEventListener("click", () => {
-  document.querySelector(".menu").classList.add("menu-selected");
+  menu.classList.add("menu-selected");
+  document.body.classList.add("no-scroll"); // 🔥 Bloqueia o scroll do fundo
+
   document.querySelector(".cad-log").style.display = "flex";
   buttonClose.style.display = "flex";
 });
 
-buttonClose.addEventListener("click", () => {
-  let menu = document.querySelector(".menu");
+// Fechar o menu
+buttonClose.addEventListener("click", (event) => {
+  event.stopPropagation(); // Agora funciona corretamente
 
-  // Adiciona a animação de saída
+  // Animação de saída
   menu.style.animation = "slideOut 0.5s forwards";
 
-  // Aguarda o término da animação e remove a classe após isso
   setTimeout(() => {
-    menu.style.animation = ""; // Limpa a animação
+    menu.style.animation = "";
     menu.classList.remove("menu-selected");
-  }, 500); // Tempo da animação (0.5s) em milissegundos
-
-  // Impede a propagação do evento para evitar comportamento inesperado
-  event.stopPropagation();
+    document.body.classList.remove("no-scroll"); // 🔥 Libera o scroll novamente
+  }, 500);
 });

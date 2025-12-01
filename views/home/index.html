@@ -52,7 +52,11 @@
         <nav class="options">
           <div class="login-option">
             <span class="material-symbols-outlined"> person </span>
-            <a href="/login">Entrar</a>
+            <% if(nome) { %>
+              <a href="/account">Olá, <%= nome %></a>
+            <% }  else { %>
+              <a href="/login">Entrar</a>
+            <% } %>
           </div>
           <div class="carrinho-option">
             <span class="material-symbols-outlined"> shopping_cart </span>
@@ -69,7 +73,11 @@
         <a href="">SOBRE NÓS</a>
         <div class="login-option">
           <span class="material-symbols-outlined"> person </span>
-          <a href="/login">Entrar</a>
+          <% if(nome) { %>
+            <a href="/account">Olá, <%= nome %></a>
+          <% }  else { %>
+            <a href="/login">Entrar</a>
+          <% } %>
         </div>
       </div>
       <div class="search-mobile">

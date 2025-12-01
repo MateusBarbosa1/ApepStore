@@ -7,20 +7,41 @@ async function setUsuarios(data){
     try {
         const hashedPassword = await bcrypt.hash(data.senha, 10);
 
-        await prisma.usuarios.create({
+        const usuario = await prisma.usuarios.create({
             data: {
                 nome: data.nome,
                 email: data.email,
                 senha: hashedPassword
             }
         });
-        return true;
+        return usuario;
     } catch(err) {
-        console.log(err);
+        if(err.code == 'P2002') {
+            return 'email';
+        }
+        return false;
+    }
+}
+async function getUsuarioID(id) {
+    try {
+        const usuario = await prisma.usuarios.findMany({ where: {id: id} });
+        return usuario;
+    } catch (err) {
+        console.error(err);
+    }
+}
+async function getUsuarioEMAIL(email) {
+    try {
+        const usuario = await prisma.usuarios.findMany({ where: {email: email} });
+        return usuario;
+    } catch (err) {
+        console.error(err);
         return false;
     }
 }
 
 module.exports = {
-    setUsuarios
+    setUsuarios,
+    getUsuarioID,
+    getUsuarioEMAIL
 }

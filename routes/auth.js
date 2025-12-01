@@ -9,4 +9,7 @@ module.exports = function (app) {
   app.post("/register", (req,res) => {
     authControllers.createUser(app,req,res);
   });
+  app.post("/login", (req,res) => {
+    authControllers.loginUser(app,req,res);
+  });
 };

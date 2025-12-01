@@ -1,0 +1,46 @@
+.account {
+    width: 50%;
+    margin: 20px 25%;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 20px;
+}
+.info span {
+    font-weight: bold;
+}
+.password-info a {
+    color: white;
+    border: 2px solid black;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: black;
+}
+.password-info a:hover {
+    color: rgb(58, 58, 58);
+    border: 2px solid rgb(58, 58, 58);
+    transition: 1s;
+    background-color: white;
+}
+.password-info .sair {
+    color: white;
+    border: 2px solid rgb(255, 145, 2);
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: rgb(255, 145, 2);
+    margin-top: 25px;
+}
+.password-info .delete {
+    color: white;
+    border: 2px solid rgb(223, 5, 5);
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: rgb(223, 5, 5);
+    margin-top: 25px;
+
+}
+.div-info {
+    margin-top: 25px;
+}
