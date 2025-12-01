@@ -20,6 +20,8 @@ async function setUsuarios(data){
             return 'email';
         }
         return false;
+    } finally {
+        await prisma.$disconnect();
     }
 }
 async function getUsuarioID(id) {
@@ -28,6 +30,8 @@ async function getUsuarioID(id) {
         return usuario;
     } catch (err) {
         console.error(err);
+    } finally {
+        await prisma.$disconnect();
     }
 }
 async function getUsuarioEMAIL(email) {
@@ -37,11 +41,25 @@ async function getUsuarioEMAIL(email) {
     } catch (err) {
         console.error(err);
         return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+async function deleteUsuarioID(id) {
+    try {
+        await prisma.usuarios.deleteMany({ where: { id: id } });
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    } finally {
+        await prisma.$disconnect();
     }
 }
 
 module.exports = {
     setUsuarios,
     getUsuarioID,
-    getUsuarioEMAIL
+    getUsuarioEMAIL,
+    deleteUsuarioID
 }

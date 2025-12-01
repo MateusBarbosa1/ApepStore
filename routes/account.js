@@ -6,4 +6,7 @@ module.exports = function(app) {
     app.get('/account/logout', (req,res) => {
         accountControllers.logout(app,req,res);
     });
+    app.get('/account/delete', (req,res) => {
+        accountControllers.deleteAccount(app,req,res);
+    });
 }
