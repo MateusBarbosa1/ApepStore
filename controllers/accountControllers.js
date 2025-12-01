@@ -14,3 +14,6 @@ module.exports.renderPage = async function(app,req,res) {
         res.render('account/index', {nome: false});
     }
 }
+module.exports.logout = function(app,req,res) {
+    res.clearCookie('token').redirect('/');
+}
