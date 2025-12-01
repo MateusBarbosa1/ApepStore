@@ -10,9 +10,9 @@ module.exports.renderPage = async function(app,req,res) {
         const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
         const firstName = usuario[0].nome.split(' ')[0];
 
-        res.render('account/index', {nome: firstName});
+        res.render('account/index', {nome: firstName, usuario: usuario[0]});
     } else {
-        res.render('account/index', {nome: false});
+        res.redirect('/login')
     }
 }
 module.exports.logout = function(app,req,res) {
