@@ -24,6 +24,16 @@ async function setUsuarios(data){
         await prisma.$disconnect();
     }
 }
+async function getUsuarios() {
+    try {
+        const usuarios = await prisma.usuarios.findMany();
+        return usuarios;
+    } catch (err) {
+        console.error(err);
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 async function getUsuarioID(id) {
     try {
         const usuario = await prisma.usuarios.findMany({ where: {id: id} });
@@ -61,5 +71,6 @@ module.exports = {
     setUsuarios,
     getUsuarioID,
     getUsuarioEMAIL,
-    deleteUsuarioID
+    deleteUsuarioID,
+    getUsuarios
 }

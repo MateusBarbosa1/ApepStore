@@ -13,3 +13,11 @@ model Usuarios {
   email  String @unique
   senha  String
 }
+model Produtos {
+  id_produto     String @id @default(uuid())
+  nome_produto   String
+  descricao      String
+  categoria      String
+  preco          Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+}
