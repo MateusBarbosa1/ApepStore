@@ -27,4 +27,7 @@ module.exports = function(app) {
     app.get('/admin/getProdutosJSON', (req,res) => {
         adminControllers.getProdutos(app,req,res,'json');
     });
+    app.post('/admin/getProdutos/delete', (req,res) => {
+        adminControllers.deleteProduto(app,req,res);
+    })
 }

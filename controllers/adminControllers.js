@@ -132,3 +132,24 @@ module.exports.getProdutos = async function(app,req,res,type) {
         res.redirect('/admin');
     }
 }
+module.exports.deleteProduto = async function(app,req,res) {
+    const tokenAdmin = req.cookies['admin_token'];
+
+    if(tokenAdmin) {
+        const tokenAdminDecoded = jwtDecode(tokenAdmin);
+
+        const produtosModel = require('../models/produtosModel');
+
+        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
+            const idBody = req.body.id;
+
+            await produtosModel.deleteProdutoID(idBody);
+            res.redirect('/admin/getProdutos');
+
+        } else { // manda para o login admin
+            res.redirect('/admin');
+        }
+    } else {
+        res.redirect('/admin');
+    }
+}
