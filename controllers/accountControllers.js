@@ -8,11 +8,16 @@ module.exports.renderPage = async function(app,req,res) {
 
         const tokenDecoded = jwtDecode(token);
         const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
-        const firstName = usuario[0].nome.split(' ')[0];
 
-        res.render('account/index', {nome: firstName, usuario: usuario[0]});
+        if(usuario.length != 0) {
+            const firstName = usuario[0].nome.split(' ')[0];
+            res.render('account/index', {nome: firstName});
+        } else {
+            res.clearCookie('token');
+            res.render('account/index', {nome: false});
+        }
     } else {
-        res.redirect('/login')
+        res.render('account/index', {nome: false});
     }
 }
 module.exports.logout = function(app,req,res) {

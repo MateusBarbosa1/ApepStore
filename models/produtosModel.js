@@ -1,0 +1,40 @@
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
+async function createProduct(data) {
+    try {
+        const produtoCriado = await prisma.produtos.createMany({
+            data: {
+                nome_produto: data.nome,
+                descricao: data.descricao,
+                categoria: data.categoria,
+                preco: data.preco
+            }
+        });
+        
+        return produtoCriado;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+async function getProdutos() {
+    try {
+        const produtos = await prisma.produtos.findMany();
+        
+        return produtos;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
+module.exports = {
+    createProduct,
+    getProdutos
+}

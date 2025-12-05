@@ -40,6 +40,7 @@ async function getUsuarioID(id) {
         return usuario;
     } catch (err) {
         console.error(err);
+        return false;
     } finally {
         await prisma.$disconnect();
     }

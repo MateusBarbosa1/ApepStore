@@ -42,19 +42,22 @@
             padding: 10px 20px;
         }
     </style>
-    <title>Admin - GET ALL USERS</title>
+    <title>Admin - GET ALL PRODUCTS</title>
 </head>
 <body>
-    <h2>ADMIN - TODOS OS USUARIOS</h2>
+    <h2>ADMIN - TODOS OS PRODUTOS</h2>
 
     <div class="usuarios">
-        <% for(let i = 0;i < usuarios.length;i++) { %>
+        <% for(let i = 0;i < produtos.length;i++) { %>
             <div class="usuario-single">
-                <h3><%= usuarios[i].nome %></h3>
-                <span><%= usuarios[i].id %></span>
-                <p><%= usuarios[i].email %></p>
-                <form action="/admin/getAllUsers/delete" method="post">
-                    <input type="text" name="id" value="<%= usuarios[i].id %>" style="display: none">
+                <h3><%= produtos[i].nome_produto %></h3>
+                <span><%= produtos[i].id_produto %></span>
+                <p><%= produtos[i].descricao %></p>
+                <p><%= produtos[i].categoria %></p>
+                <p><%= produtos[i].preco %> R$</p>
+                <p><%= produtos[i].createdAt %></p>
+                <form action="/admin/getProdutos/delete" method="post">
+                    <input type="text" name="id" value="<%= produtos[i].id_produto %>" style="display: none">
                     <input type="submit" value="DELETAR">
                 </form>
             </div>

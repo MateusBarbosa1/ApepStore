@@ -12,4 +12,19 @@ module.exports = function(app) {
     app.get('/admin/getAllUsers', (req,res) => {
         adminControllers.getAllUsers(app,req,res,'body');
     });
+    app.post('/admin/getAllUsers/delete', (req,res) => {
+        adminControllers.deletarUsuario(app,req,res);
+    });
+    app.get('/admin/createProduct', (req,res) => {
+        adminControllers.renderCreateProduct(app,req,res);
+    });
+    app.post('/admin/createProduct', (req,res) => {
+        adminControllers.createProduct(app,req,res);
+    });
+    app.get('/admin/getProdutos', (req,res) => {
+        adminControllers.getProdutos(app,req,res,'body');
+    });
+    app.get('/admin/getProdutosJSON', (req,res) => {
+        adminControllers.getProdutos(app,req,res,'json');
+    });
 }

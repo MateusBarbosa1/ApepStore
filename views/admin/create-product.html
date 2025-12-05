@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN - CRIAR PRODUTO</title>
+</head>
+<body>
+    <h2>CRIAR PRODUTO</h2>
+    <form action="/admin/createProduct" method="post">
+        <input type="text" placeholder="Nome Produto*" name="nome" required>
+        <input type="text" placeholder="Descrição*" name="descricao" required>
+        <select name="categoria">
+            <option value="camisetas">Camisetas</option>
+            <option value="femininas">Roupas Femininas</option>
+            <option value="sapatos">Sapatos</option>
+        </select>
+        <input type="text" name="preco" placeholder="Preço*" required>
+        <input type="submit" value="Criar Produto">
+    </form>
+</body>
+</html>
