@@ -153,3 +153,24 @@ module.exports.deleteProduto = async function(app,req,res) {
         res.redirect('/admin');
     }
 }
+module.exports.updateProduto = async function(app,req,res) {
+    const tokenAdmin = req.cookies['admin_token'];
+
+    if(tokenAdmin) {
+        const tokenAdminDecoded = jwtDecode(tokenAdmin);
+
+        const produtosModel = require('../models/produtosModel');
+
+        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
+            const data = req.body;
+
+            await produtosModel.updateProduto(req.body.id,data);
+            res.redirect('/admin/getProdutos');
+
+        } else { // manda para o login admin
+            res.redirect('/admin');
+        }
+    } else {
+        res.redirect('/admin');
+    }
+}

@@ -30,12 +30,31 @@
         span {
             font-size: 13px;
         }
-        h3 {
-            text-transform: uppercase;
-        }
+
         input[type="submit"] {
             margin-top: 15px;
             background: red;
+            border: none;
+            cursor: pointer;
+            color: white;
+            padding: 10px 20px;
+        }
+        .update-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            z-index: 9999;
+            display: none; /* Começa escondido */
+            width: 60%;
+        }
+        button {
+            margin-top: 15px;
+            background: orange;
             border: none;
             cursor: pointer;
             color: white;
@@ -60,8 +79,59 @@
                     <input type="text" name="id" value="<%= produtos[i].id_produto %>" style="display: none">
                     <input type="submit" value="DELETAR">
                 </form>
+                <button class="update-btn">ATUALIZAR</button>
             </div>
         <% } %>
     </div>
+
+    <form action="/admin/getProdutos/update" method="post" class="update-form">
+        <h2>ATUALIZAR</h2>
+        <input type="text" name="id" id="id" style="display: none">
+        <input type="text" name="nome_produto" id="nom">
+        <input type="text" name="descricao" id="des">
+        <select name="categoria" id="cat">
+            <option value="camisetas">Camisetas</option>
+            <option value="femininas">Roupas Femininas</option>
+            <option value="sapatos">Sapatos</option>
+        </select>
+        <input type="text" name="preco" id="pre">
+        <input type="submit" value="ATUALIZAR">
+    </form>
+
+    <script>
+        let inputN = document.getElementById('nom');
+        let inputD = document.getElementById('des');
+        let categoria = document.getElementById('cat');
+        let inputP = document.getElementById('pre');
+        let inputID = document.getElementById('id');
+
+        let updateForm = document.querySelector('.update-form');
+
+        const buttons = document.querySelectorAll('.update-btn');
+
+        // Fechar ao clicar fora
+        document.addEventListener("click", (event) => {
+            if (updateForm.style.display === "block" && !updateForm.contains(event.target)) {
+                updateForm.style.display = "none";
+            }
+        });
+
+        buttons.forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+
+                event.stopPropagation();
+
+                const produto = btn.parentElement;
+
+                inputID.value = produto.querySelector('span').innerText;
+                inputN.value = produto.querySelector('h3').innerText;
+                inputD.value = produto.querySelectorAll('p')[0].innerText;
+                categoria.value = produto.querySelectorAll('p')[1].innerText;
+                inputP.value = produto.querySelectorAll('p')[2].innerText.replace(" R$", "");
+
+                updateForm.style.display = "block";
+            });
+        });
+    </script>
 </body>
 </html>

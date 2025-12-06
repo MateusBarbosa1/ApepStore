@@ -29,5 +29,8 @@ module.exports = function(app) {
     });
     app.post('/admin/getProdutos/delete', (req,res) => {
         adminControllers.deleteProduto(app,req,res);
-    })
+    });
+    app.post('/admin/getProdutos/update', (req,res) => {
+        adminControllers.updateProduto(app,req,res);
+    });
 }

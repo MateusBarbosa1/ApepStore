@@ -44,9 +44,31 @@ async function deleteProdutoID(id) {
         await prisma.$disconnect();
     }
 }
+async function updateProduto(id,data) {
+    try {
+        await prisma.produtos.updateMany({
+            where: {
+                id_produto: id
+            },
+            data: {
+                nome_produto: data.nome_produto,
+                descricao: data.descricao,
+                categoria: data.categoria,
+                preco: data.preco
+            }
+        });
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 
 module.exports = {
     createProduct,
     getProdutos,
-    deleteProdutoID
+    deleteProdutoID,
+    updateProduto
 }
