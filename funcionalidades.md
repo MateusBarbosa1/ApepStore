@@ -15,8 +15,8 @@ Este projeto implementa a estrutura completa de um back-end profissional para um
 ---
 
 ## 🧰 Funcionalidades Intermediárias
-- [ ] CRUD completo de produtos (nome, descrição, preço, estoque e imagens)  
-- [ ] CRUD de categorias e subcategorias  
+- [ x ] CRUD completo de produtos (nome, descrição, preço, estoque e imagens)  
+- [ ] CRUD de categorias e subcategorias
 - [ ] Controle de estoque integrado ao processo de compra  
 - [ ] Sistema de cupons de desconto  
 - [ ] Regras de promoção (frete grátis, % off etc.)  

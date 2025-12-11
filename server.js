@@ -27,6 +27,6 @@ fs.readdirSync(routesPath).forEach((file) => {
     }
 });
 
-app.listen(3000, "127.0.0.1", () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("server running on port 3000!");
 });

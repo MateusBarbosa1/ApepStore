@@ -146,102 +146,20 @@
       </center>
 
       <div class="roupas-destaque">
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+        <% for(let i = 0;i < produtos.length;i++) { %>
+          <div class="produto-single">
+            <div class="img-produto">
+              <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
+            </div>
+            <div class="content-produto">
+              <h2><%= produtos[i].nome_produto %></h2>
+              <h3>R$<%= produtos[i].preco %></h3>
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
+              <p>3x de R$ 33</p>
+              <button>COMPRAR</button>
+            </div>
           </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
+      <% } %>
       </div>
 
       <center>
