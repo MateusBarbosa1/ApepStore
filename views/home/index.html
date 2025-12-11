@@ -153,9 +153,9 @@
             </div>
             <div class="content-produto">
               <h2><%= produtos[i].nome_produto %></h2>
-              <h3>R$<%= produtos[i].preco %></h3>
+              <h3>R$ <%= produtos[i].preco %></h3>
 
-              <p>3x de R$ 33</p>
+              <p>3x de R$ <%= (produtos[i].preco / 3).toFixed(2) %> sem juros!</p>
               <button>COMPRAR</button>
             </div>
           </div>
