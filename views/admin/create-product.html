@@ -7,7 +7,8 @@
 </head>
 <body>
     <h2>CRIAR PRODUTO</h2>
-    <form action="/admin/createProduct" method="post">
+    <form action="/admin/createProduct" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" required>
         <input type="text" placeholder="Nome Produto*" name="nome" required>
         <input type="text" placeholder="Descrição*" name="descricao" required>
         <select name="categoria">

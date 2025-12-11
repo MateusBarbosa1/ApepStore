@@ -1,5 +1,7 @@
 module.exports = function(app) {
     const adminControllers = require('../controllers/adminControllers.js');
+    const upload = require('../middlewares/uploadImage.js');
+
     app.get('/admin', (req,res) => {
         adminControllers.renderPageLogin(app,req,res);
     });
@@ -18,7 +20,7 @@ module.exports = function(app) {
     app.get('/admin/createProduct', (req,res) => {
         adminControllers.renderCreateProduct(app,req,res);
     });
-    app.post('/admin/createProduct', (req,res) => {
+    app.post('/admin/createProduct', upload.single('image'), (req,res) => {
         adminControllers.createProduct(app,req,res);
     });
     app.get('/admin/getProdutos', (req,res) => {

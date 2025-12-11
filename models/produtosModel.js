@@ -2,14 +2,15 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-async function createProduct(data) {
+async function createProduct(data, filename) {
     try {
         const produtoCriado = await prisma.produtos.createMany({
             data: {
                 nome_produto: data.nome,
                 descricao: data.descricao,
                 categoria: data.categoria,
-                preco: data.preco
+                preco: data.preco,
+                img: filename
             }
         });
         

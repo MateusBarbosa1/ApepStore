@@ -113,14 +113,14 @@
 
     <section class="destaques">
       <div class="destaque">
-        <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
+        <img src="images/produtos/destaque-camisetas.png" alt="" />
         <div class="texto-destaque">
           <h2>CAMISETAS</h2>
           <button>CONFIRA</button>
         </div>
       </div>
       <div class="destaque">
-        <img src="images/produtos/sapatos/destaque-sapato.webp" alt="" />
+        <img src="images/produtos/destaque-sapato.webp" alt="" />
         <div class="texto-destaque">
           <h2>SAPATOS</h2>
           <button>CONFIRA</button>
@@ -128,7 +128,7 @@
       </div>
       <div class="destaque">
         <img
-          src="images/produtos/roupas-femininas/destaque-roupa-feminina.png"
+          src="images/produtos/destaque-roupa-feminina.png"
           alt=""
         />
         <div class="texto-destaque">
@@ -149,7 +149,7 @@
         <% for(let i = 0;i < produtos.length;i++) { %>
           <div class="produto-single">
             <div class="img-produto">
-              <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
+              <img src="images/produtos/<%= produtos[i].img %>" alt="" />
             </div>
             <div class="content-produto">
               <h2><%= produtos[i].nome_produto %></h2>

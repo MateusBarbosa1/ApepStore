@@ -19,5 +19,6 @@ model Produtos {
   descricao      String
   categoria      String
   preco          Decimal  @db.Decimal(10, 2)
+  img            String
   createdAt DateTime @default(now())
 }

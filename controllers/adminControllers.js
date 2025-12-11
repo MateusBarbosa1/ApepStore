@@ -1,4 +1,6 @@
 const { jwtDecode } = require('jwt-decode');
+const path = require('path');
+const fs = require('fs');
 
 module.exports.renderPageLogin = function(app,req,res) {
     const tokenAdmin = req.cookies['admin_token'];
@@ -93,19 +95,44 @@ module.exports.renderCreateProduct = function(app,req,res) {
         res.redirect('/admin');
     }
 }
-module.exports.createProduct = async function(app,req,res) {
+module.exports.createProduct = async function(app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
     if(tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
+
+        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
             const data = req.body;
+            const file = req.file; // arquivo enviado pelo multer
+
+            let novoNome = "";
+
+            if(file) {
+                // Cria nome seguro: categoria-nome.ext
+                const categoriaSafe = (data.categoria || "geral").replace(/\s+/g, "_").replace(/[^\w\-]/g, "");
+                const nomeSafe = (data.nome || "produto").replace(/\s+/g, "_").replace(/[^\w\-]/g, "");
+                const novaExt = path.extname(file.originalname);
+                novoNome = `${categoriaSafe}-${nomeSafe}${novaExt}`;
+
+                // Caminhos
+                const oldPath = file.path;
+                const newPath = path.join(path.dirname(oldPath), novoNome);
+
+                // Renomeia o arquivo
+                fs.renameSync(oldPath, newPath);
+
+                // Atualiza o body com o nome do arquivo
+                data.imagem = novoNome;
+            }
 
             const produtosModel = require('../models/produtosModel');
-            const produtoCriado = await produtosModel.createProduct(data);
-            if (produtoCriado != false) { // produto criado com sucesso
+            const produtoCriado = await produtosModel.createProduct(data, novoNome);
+
+            if (produtoCriado != false) {
                 res.redirect('/admin/createProduct');
             }
+        } else {
+            res.redirect('/admin');
         }
     } else {
         res.redirect('/admin');
