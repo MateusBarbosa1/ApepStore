@@ -199,36 +199,113 @@ span {
   justify-content: center;
   flex-wrap: wrap;
 }
+/* =========================
+   CARD DO PRODUTO
+========================= */
 .produto-single {
   width: 21%;
   border: 1px solid #cacaca;
   text-align: center;
   margin: 2%;
+  box-sizing: border-box;
 }
+
+/* =========================
+   IMAGEM DO PRODUTO
+========================= */
 .produto-single .img-produto {
   width: 100%;
+  position: relative; /* referência para o botão */
 }
+
 .produto-single .img-produto img {
   width: 100%;
+  display: block;
 }
+
+/* =========================
+   BOTÃO DO CARRINHO
+========================= */
+.btn-carrinho {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  background-color: #000;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 1; /* sempre visível */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Efeito ao clicar */
+.btn-carrinho:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   ÍCONE DO CARRINHO
+========================= */
+.btn-carrinho .material-symbols-outlined {
+  color: #fff;
+  font-size: 22px;
+}
+
+/* =========================
+   CONTEÚDO DO PRODUTO
+========================= */
+.produto-single .content-produto {
+  padding: 10px;
+}
+
+/* Nome do produto */
 .produto-single h2 {
   color: rgb(41, 41, 41);
   font-size: 19px;
+  margin: 10px 0;
 }
+
+/* Preço */
 .produto-single h3 {
   font-family: "Bebas Neue", sans-serif;
   font-size: 35px;
   font-weight: bold;
+  margin: 5px 0;
 }
-.produto-single button {
+
+/* Parcelamento */
+.produto-single p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   BOTÃO COMPRAR
+========================= */
+.produto-single .content-produto button {
   border: none;
-  background-color: black;
+  background-color: #008000;
   border-radius: 19px;
   color: white;
   cursor: pointer;
   font-size: 15px;
   padding: 5px 20px;
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
+}
+
+/* Hover do botão comprar */
+.produto-single .content-produto button:hover {
+  background-color: #22c022;
+  transition: background-color 0.3s ease;
 }
 center button {
   border: none;
