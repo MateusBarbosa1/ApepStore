@@ -147,7 +147,7 @@
 
       <div class="roupas-destaque">
         <% for(let i = 0;i < produtos.length;i++) { %>
-          <div class="produto-single">
+          <div class="produto-single" style="cursor: pointer;" onclick="window.location.href = '/produto-single/<%= produtos[i].id_produto %>'">
             <div class="img-produto">
               <img src="images/produtos/<%= produtos[i].img %>" alt="" />
             </div>

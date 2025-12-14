@@ -1,23 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADMIN - CRIAR PRODUTO</title>
 </head>
 <body>
-    <h2>CRIAR PRODUTO</h2>
-    <form action="/admin/createProduct" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" required>
-        <input type="text" placeholder="Nome Produto*" name="nome" required>
-        <input type="text" placeholder="Descrição*" name="descricao" required>
-        <select name="categoria">
-            <option value="camisetas">Camisetas</option>
-            <option value="femininas">Roupas Femininas</option>
-            <option value="sapatos">Sapatos</option>
-        </select>
-        <input type="text" name="preco" placeholder="Preço*" required>
-        <input type="submit" value="Criar Produto">
-    </form>
+
+<h2>CRIAR PRODUTO</h2>
+
+<form action="/admin/createProduct" method="post" enctype="multipart/form-data">
+
+    <input type="file" name="image" required>
+
+    <input type="text" name="nome" placeholder="Nome Produto*" required>
+
+    <textarea name="descricao" placeholder="Descrição*" required></textarea>
+
+    <select name="categoria">
+        <option value="camisetas">Camisetas</option>
+        <option value="femininas">Roupas Femininas</option>
+        <option value="sapatos">Sapatos</option>
+    </select>
+
+    <input type="number" name="preco" step="0.01" placeholder="Preço*" required>
+
+    <!-- CORES -->
+    <h4>Cores do Produto</h4>
+
+    <div id="cores-container">
+        <div class="cor-item">
+            <input type="text" name="coresNome[]" placeholder="Nome da cor (ex: Preto)" required>
+            <input type="color" name="coresHex[]" value="#000000" required>
+        </div>
+    </div>
+
+    <button type="button" onclick="addCor()">+ Adicionar outra cor</button>
+
+    <br><br>
+
+    <input type="submit" value="Criar Produto">
+</form>
+
+<script>
+function addCor() {
+    const container = document.getElementById('cores-container');
+
+    const div = document.createElement('div');
+    div.classList.add('cor-item');
+
+    div.innerHTML = `
+        <input type="text" name="coresNome[]" placeholder="Nome da cor" required>
+        <input type="color" name="coresHex[]" value="#000000" required>
+    `;
+
+    container.appendChild(div);
+}
+</script>
+
 </body>
 </html>
