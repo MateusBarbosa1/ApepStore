@@ -27,6 +27,27 @@ fs.readdirSync(routesPath).forEach((file) => {
     }
 });
 
+app.use(async (req,res,next) => {
+    const token = req.cookies['token'];
+
+    if(token) {
+        const usuariosModel = require('./models/usuariosModel');
+
+        const tokenDecoded = jwtDecode(token);
+        const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
+
+        if(usuario.length != 0) {
+            const firstName = usuario[0].nome.split(' ')[0];
+            res.render('404', {nome: firstName});
+        } else {
+            res.clearCookie('token');
+            res.render('404', {nome: false});
+        }
+    } else {
+        res.render('404', {nome: false});
+    }
+});
+
 app.listen(3000, "0.0.0.0", () => {
   console.log("server running on port 3000!");
 });
