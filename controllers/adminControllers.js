@@ -159,7 +159,7 @@ module.exports.getProdutos = async function(app,req,res,type) {
         res.redirect('/admin');
     }
 }
-module.exports.deleteProduto = async function(app,req,res) {
+module.exports.deleteProduto = async function(app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
     if(tokenAdmin) {
@@ -167,13 +167,33 @@ module.exports.deleteProduto = async function(app,req,res) {
 
         const produtosModel = require('../models/produtosModel');
 
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
+        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { 
             const idBody = req.body.id;
 
+            const produtoDeleted = await produtosModel.getProdutoID(idBody);
             await produtosModel.deleteProdutoID(idBody);
+
+            console.log(produtoDeleted);
+
+            const imagePath = path.join(
+                process.cwd(),
+                'public',
+                'images',
+                'produtos',
+                produtoDeleted[0].img
+            );
+
+            fs.unlink(imagePath, (err) => {
+                if(err) {
+                    console.error('Erro ao deletar a imagem:', err);
+                } else {
+                    console.log('Imagem deletada com sucesso!');
+                }
+            });
+
             res.redirect('/admin/getProdutos');
 
-        } else { // manda para o login admin
+        } else {
             res.redirect('/admin');
         }
     } else {

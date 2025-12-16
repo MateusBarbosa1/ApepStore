@@ -39,6 +39,20 @@
 
     <br><br>
 
+    <!-- TAMANHOS -->
+    <h4>Tamanhos do Produto</h4>
+
+    <div id="tamanhos-container">
+        <div class="tamanho-item">
+            <input type="text" name="tamanhos[]" placeholder="Tamanho (ex: P, M, G, 38)" required>
+        </div>
+    </div>
+
+    <button type="button" onclick="addTamanho()">+ Adicionar outro tamanho</button>
+
+    <br><br>
+    <input type="text" name="material" requirede placeholder="Material*">
+
     <input type="submit" value="Criar Produto">
 </form>
 
@@ -52,6 +66,19 @@ function addCor() {
     div.innerHTML = `
         <input type="text" name="coresNome[]" placeholder="Nome da cor" required>
         <input type="color" name="coresHex[]" value="#000000" required>
+    `;
+
+    container.appendChild(div);
+}
+
+function addTamanho() {
+    const container = document.getElementById('tamanhos-container');
+
+    const div = document.createElement('div');
+    div.classList.add('tamanho-item');
+
+    div.innerHTML = `
+        <input type="text" name="tamanhos[]" placeholder="Tamanho" required>
     `;
 
     container.appendChild(div);

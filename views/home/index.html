@@ -65,12 +65,12 @@
       </div>
       <div class="menu">
         <span class="material-symbols-outlined close"> close </span>
-        <a href="" id="selected">INICIO</a>
+        <a href="/" id="selected">INICIO</a>
+        <a href="/all-roupas">TODAS AS ROUPAS</a>
         <a href="/camisetas">CAMISETAS</a>
-        <a href="">ROUPAS FEMININAS</a>
-        <a href="">SAPATOS</a>
-        <a href="">CONTATO</a>
-        <a href="">SOBRE NÓS</a>
+        <a href="/roupas-femininas">ROUPAS FEMININAS</a>
+        <a href="/sapatos">SAPATOS</a>
+        <a href="/sobre">SOBRE NÓS</a>
         <div class="login-option">
           <span class="material-symbols-outlined"> person </span>
           <% if(nome) { %>
@@ -116,14 +116,14 @@
         <img src="images/produtos/destaque-camisetas.png" alt="" />
         <div class="texto-destaque">
           <h2>CAMISETAS</h2>
-          <button>CONFIRA</button>
+          <button onclick="window.location.href = '/camisetas';">CONFIRA</button>
         </div>
       </div>
       <div class="destaque">
         <img src="images/produtos/destaque-sapato.webp" alt="" />
         <div class="texto-destaque">
           <h2>SAPATOS</h2>
-          <button>CONFIRA</button>
+          <button onclick="window.location.href = '/sapatos';">CONFIRA</button>
         </div>
       </div>
       <div class="destaque">
@@ -133,7 +133,7 @@
         />
         <div class="texto-destaque">
           <h2 style="font-size: 28px">ROUPAS FEMININAS</h2>
-          <button>CONFIRA</button>
+          <button onclick="window.location.href = '/roupas-femininas';">CONFIRA</button>
         </div>
       </div>
     </section>
@@ -147,35 +147,37 @@
 
       <div class="roupas-destaque">
         <% for(let i = 0;i < produtos.length;i++) { %>
-          <% const preco = Number(produtos[i].preco); %>
+          <% if(produtos[i].categoria == 'camisetas' || produtos[i].categoria == 'femininas') { %>
+            <% const preco = Number(produtos[i].preco); %>
 
-          <div class="produto-single"
-              style="cursor: pointer;"
-              onclick="window.location.href = '/produto-single/<%= produtos[i].id_produto %>'">
+            <div class="produto-single"
+                style="cursor: pointer;"
+                onclick="window.location.href = '/produto-single/<%= produtos[i].id_produto %>'">
 
-            <div class="img-produto">
-              <img src="images/produtos/<%= produtos[i].img %>" alt="" />
+              <div class="img-produto">
+                <img src="images/produtos/<%= produtos[i].img %>" alt="" />
 
-              <!-- BOTÃO SOBRE A IMAGEM -->
-              <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
-                <span class="material-symbols-outlined">shopping_cart</span>
-              </button>
+                <!-- BOTÃO SOBRE A IMAGEM -->
+                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
+                  <span class="material-symbols-outlined">shopping_cart</span>
+                </button>
+              </div>
+
+              <div class="content-produto">
+                <h2><%= produtos[i].nome_produto %></h2>
+                <h3>R$ <%= preco.toFixed(2) %></h3>
+                <p>3x de R$ <%= (produtos[i].preco / 3).toFixed(2) %> sem juros!</p>
+                <button>COMPRAR</button>
+              </div>
+
             </div>
-
-            <div class="content-produto">
-              <h2><%= produtos[i].nome_produto %></h2>
-              <h3>R$ <%= preco.toFixed(2) %></h3>
-              <p>3x de R$ <%= (produtos[i].preco / 3).toFixed(2) %> sem juros!</p>
-              <button>COMPRAR</button>
-            </div>
-
-          </div>
+          <% } %>
 
       <% } %>
       </div>
 
       <center>
-        <button>VER TODAS AS ROUPAS</button>
+        <button onclick="window.location.href = '/all-roupas';">VER TODAS AS ROUPAS</button>
       </center>
     </section>
 
@@ -187,45 +189,37 @@
       </center>
 
       <div class="sapatos-destaque">
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/sapatos/destaque-sapato.webp" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+        <% for(let u = 0;u < produtos.length;u++) { %>
+          <% if(produtos[u].categoria == 'sapatos') { %>
+            <% const precoS = Number(produtos[u].preco); %>
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/sapatos/destaque-sapato.webp" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+            <div class="produto-single"
+                style="cursor: pointer;"
+                onclick="window.location.href = '/produto-single/<%= produtos[u].id_produto %>'">
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/sapatos/destaque-sapato.webp" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+              <div class="img-produto">
+                <img src="images/produtos/<%= produtos[u].img %>" alt="" />
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
+                <!-- BOTÃO SOBRE A IMAGEM -->
+                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
+                  <span class="material-symbols-outlined">shopping_cart</span>
+                </button>
+              </div>
+
+              <div class="content-produto">
+                <h2><%= produtos[u].nome_produto %></h2>
+                <h3>R$ <%= precoS.toFixed(2) %></h3>
+                <p>3x de R$ <%= (produtos[u].preco / 3).toFixed(2) %> sem juros!</p>
+                <button>COMPRAR</button>
+              </div>
+
+            </div>
+          <% } %>
+
+        <% } %>        
       </div>
       <center>
-        <button>VER TODOS OS SAPATOS</button>
+        <button onclick="window.location.href = '/sapatos';">VER TODOS OS SAPATOS</button>
       </center>
     </section>
 

@@ -26,8 +26,7 @@
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/auth.css" />
-    <link rel="stylesheet" href="css/account.css" />
-    <title>ApepStore - Minha Conta</title>
+    <title>ApepStore - Entrar</title>
   </head>
   <body>
     <header>
@@ -55,9 +54,9 @@
           <div class="login-option">
             <span class="material-symbols-outlined"> person </span>
             <% if(nome) { %>
-                <a href="/account" id="selected">Olá, <%= nome %></a>
+              <a href="/account">Olá, <%= nome %></a>
             <% }  else { %>
-                <a href="/login">Entrar</a>
+              <a href="/login">Entrar</a>
             <% } %>
           </div>
           <div class="carrinho-option">
@@ -71,12 +70,12 @@
         <a href="/all-roupas">TODAS AS ROUPAS</a>
         <a href="/camisetas">CAMISETAS</a>
         <a href="/roupas-femininas">ROUPAS FEMININAS</a>
-        <a href="/sapatos">SAPATOS</a>
+        <a href="/sapatos" id="selected">SAPATOS</a>
         <a href="/sobre">SOBRE NÓS</a>
         <div class="login-option">
           <span class="material-symbols-outlined"> person </span>
           <% if(nome) { %>
-            <a href="/account" id="selected">Olá, <%= nome %></a>
+            <a href="/account">Olá, <%= nome %></a>
           <% }  else { %>
             <a href="/login">Entrar</a>
           <% } %>
@@ -91,37 +90,42 @@
       </div>
     </header>
 
-    <div class="rota">
-      <h2>Minha Conta</h2>
-    </div>
+    <section class="produtos" style="padding-top: 150px">
+      <center>
+        <div class="titulo-roupas">
+          <h2>Sapatos</h2>
+        </div>
+      </center>
 
-    <section class="account">
-        <div class="info">
-            <span>Nome:</span>
-            <p><%= usuario.nome %></p>
-        </div>
-        <div class="info">
-            <span>Email:</span>
-            <p><%= usuario.email %></p>
-        </div>
-        <div class="info password-info">
-            <div>
-                <span>Senha:</span>
-                <p>********</p>
+      <div class="roupas">
+        <% for(let i = 0;i < sapatos.length;i++) { %>
+            <% const preco = Number(sapatos[i].preco); %>
+
+            <div class="produto-single"
+                style="cursor: pointer;"
+                onclick="window.location.href = '/produto-single/<%= sapatos[i].id_produto %>'">
+
+              <div class="img-produto">
+                <img src="images/produtos/<%= sapatos[i].img %>" alt="" />
+
+                <!-- BOTÃO SOBRE A IMAGEM -->
+                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
+                  <span class="material-symbols-outlined">shopping_cart</span>
+                </button>
+              </div>
+
+              <div class="content-produto">
+                <h2><%= sapatos[i].nome_produto %></h2>
+                <h3>R$ <%= preco.toFixed(2) %></h3>
+                <p>3x de R$ <%= (sapatos[i].preco / 3).toFixed(2) %> sem juros!</p>
+                <button>COMPRAR</button>
+              </div>
+
             </div>
-            <div>
-              <a href="/account/updatePassword">Alterar Senha</a>
-            </div>
-            <div class="div-info">
-              <a href="/account/logout" class="sair">Sair da Conta</a>
-            </div>
-            <div class="div-info">
-              <a class="delete" href="/account/delete">Deletar Conta</a>
-            </div>
-        </div>
+
+      <% } %>
+      </div>
     </section>
-
-    
 
     <!-- Util.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

@@ -67,11 +67,11 @@
       <div class="menu">
         <span class="material-symbols-outlined close"> close </span>
         <a href="/">INICIO</a>
+        <a href="/all-roupas">TODAS AS ROUPAS</a>
         <a href="/camisetas" id="selected">CAMISETAS</a>
-        <a href="">ROUPAS FEMININAS</a>
-        <a href="">SAPATOS</a>
-        <a href="">CONTATO</a>
-        <a href="">SOBRE NÓS</a>
+        <a href="/roupas-femininas">ROUPAS FEMININAS</a>
+        <a href="/sapatos">SAPATOS</a>
+        <a href="/sobre">SOBRE NÓS</a>
         <div class="login-option">
           <span class="material-symbols-outlined"> person </span>
           <% if(nome) { %>
@@ -98,102 +98,32 @@
       </center>
 
       <div class="roupas">
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+        <% for(let i = 0;i < camisetas.length;i++) { %>
+            <% const preco = Number(camisetas[i].preco); %>
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+            <div class="produto-single"
+                style="cursor: pointer;"
+                onclick="window.location.href = '/produto-single/<%= camisetas[i].id_produto %>'">
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+              <div class="img-produto">
+                <img src="images/produtos/<%= camisetas[i].img %>" alt="" />
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+                <!-- BOTÃO SOBRE A IMAGEM -->
+                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
+                  <span class="material-symbols-outlined">shopping_cart</span>
+                </button>
+              </div>
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+              <div class="content-produto">
+                <h2><%= camisetas[i].nome_produto %></h2>
+                <h3>R$ <%= preco.toFixed(2) %></h3>
+                <p>3x de R$ <%= (camisetas[i].preco / 3).toFixed(2) %> sem juros!</p>
+                <button>COMPRAR</button>
+              </div>
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
+            </div>
 
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
-        <div class="produto-single">
-          <div class="img-produto">
-            <img src="images/produtos/roupas/camisa1-teste.png" alt="" />
-          </div>
-          <div class="content-produto">
-            <h2>Produto Teste</h2>
-            <h3>R$100</h3>
-
-            <p>3x de R$ 33</p>
-            <button>COMPRAR</button>
-          </div>
-        </div>
+      <% } %>
       </div>
     </section>
 

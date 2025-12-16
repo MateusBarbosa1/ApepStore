@@ -67,11 +67,11 @@
       <div class="menu">
         <span class="material-symbols-outlined close"> close </span>
         <a href="/">INICIO</a>
+        <a href="/all-roupas">TODAS AS ROUPAS</a>
         <a href="/camisetas">CAMISETAS</a>
-        <a href="">ROUPAS FEMININAS</a>
-        <a href="">SAPATOS</a>
-        <a href="">CONTATO</a>
-        <a href="">SOBRE NÓS</a>
+        <a href="/roupas-femininas">ROUPAS FEMININAS</a>
+        <a href="/sapatos">SAPATOS</a>
+        <a href="/sobre">SOBRE NÓS</a>
         <div class="login-option">
           <span class="material-symbols-outlined"> person </span>
           <% if(nome) { %>
@@ -151,10 +151,10 @@
                     <div class="form-group">
                         <label class="form-label">Tamanho</label>
                         <div class="size-options">
-                            <button class="size-btn">P</button>
-                            <button class="size-btn active">M</button>
-                            <button class="size-btn">G</button>
-                            <button class="size-btn">GG</button>
+                            <button class="size-btn active"><%= produto[0].tamanhos[0] %></button>
+                            <% for(let l = 1;l < produto[0].tamanhos.length;l++) { %>
+                              <button class="size-btn"><%= produto[0].tamanhos[l] %></button>
+                            <% } %>
                         </div>
                     </div>
 
@@ -216,7 +216,7 @@
                         <div class="description-details">
                             <div class="detail-item">
                                 <strong>Material</strong>
-                                <p>100% Algodão Premium</p>
+                                <p>100% <%= produto[0].material %></p>
                             </div>
                         </div>
                     </div>

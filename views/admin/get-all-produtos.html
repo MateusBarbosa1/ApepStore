@@ -75,6 +75,19 @@
                 <p><%= produtos[i].categoria %></p>
                 <p><%= produtos[i].preco %> R$</p>
                 <p><%= produtos[i].createdAt %></p>
+                <p class="material"><strong>Material:</strong> <%= produtos[i].material %></p>
+
+                <p class="cores">
+                <strong>Cores:</strong>
+                <%= JSON.stringify(produtos[i].cores) %>
+                </p>
+
+                <p class="tamanhos">
+                <strong>Tamanhos:</strong>
+                <%= JSON.stringify(produtos[i].tamanhos) %>
+                </p>
+
+                <img src="/images/produtos/<%= produtos[i].img %>" width="100">
                 <form action="/admin/getProdutos/delete" method="post">
                     <input type="text" name="id" value="<%= produtos[i].id_produto %>" style="display: none">
                     <input type="submit" value="DELETAR">
@@ -84,54 +97,111 @@
         <% } %>
     </div>
 
-    <form action="/admin/getProdutos/update" method="post" class="update-form">
-        <h2>ATUALIZAR</h2>
-        <input type="text" name="id" id="id" style="display: none">
-        <input type="text" name="nome_produto" id="nom">
-        <input type="text" name="descricao" id="des">
+    <form action="/admin/getProdutos/update" method="post" class="update-form" enctype="multipart/form-data">
+        <h2>ATUALIZAR PRODUTO</h2>
+
+        <input type="hidden" name="id" id="id">
+
+        <input type="text" name="nome_produto" id="nom" placeholder="Nome">
+
+        <textarea name="descricao" id="des" placeholder="Descrição"></textarea>
+
         <select name="categoria" id="cat">
             <option value="camisetas">Camisetas</option>
             <option value="femininas">Roupas Femininas</option>
             <option value="sapatos">Sapatos</option>
         </select>
-        <input type="text" name="preco" id="pre">
+
+        <input type="text" name="preco" id="pre" placeholder="Preço">
+
+        <!-- MATERIAL -->
+        <input type="text" name="material" id="material" placeholder="Material">
+
+        <!-- IMAGEM -->
+        <input type="file" name="image">
+
+        <!-- CORES -->
+        <h4>Cores</h4>
+        <div id="cores-update"></div>
+        <button type="button" onclick="addCorUpdate()">+ Cor</button>
+
+        <!-- TAMANHOS -->
+        <h4>Tamanhos</h4>
+        <div id="tamanhos-update"></div>
+        <button type="button" onclick="addTamanhoUpdate()">+ Tamanho</button>
+
+        <br><br>
         <input type="submit" value="ATUALIZAR">
     </form>
 
+
     <script>
-        let inputN = document.getElementById('nom');
-        let inputD = document.getElementById('des');
-        let categoria = document.getElementById('cat');
-        let inputP = document.getElementById('pre');
-        let inputID = document.getElementById('id');
+        const inputN = document.getElementById('nom');
+        const inputD = document.getElementById('des');
+        const categoria = document.getElementById('cat');
+        const inputP = document.getElementById('pre');
+        const inputID = document.getElementById('id');
+        const inputMaterial = document.getElementById('material');
 
-        let updateForm = document.querySelector('.update-form');
+        const coresUpdate = document.getElementById('cores-update');
+        const tamanhosUpdate = document.getElementById('tamanhos-update');
 
+        const updateForm = document.querySelector('.update-form');
         const buttons = document.querySelectorAll('.update-btn');
 
-        // Fechar ao clicar fora
-        document.addEventListener("click", (event) => {
-            if (updateForm.style.display === "block" && !updateForm.contains(event.target)) {
-                updateForm.style.display = "none";
-            }
+        // fechar ao clicar fora
+        document.addEventListener("click", (e) => {
+        if (updateForm.style.display === "block" && !updateForm.contains(e.target)) {
+            updateForm.style.display = "none";
+        }
         });
 
         buttons.forEach((btn) => {
-            btn.addEventListener('click', (event) => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
 
-                event.stopPropagation();
+            const produto = btn.parentElement;
 
-                const produto = btn.parentElement;
+            inputID.value = produto.querySelector('span').innerText;
+            inputN.value = produto.querySelector('h3').innerText;
+            inputD.value = produto.querySelectorAll('p')[0].innerText;
+            categoria.value = produto.querySelectorAll('p')[1].innerText;
+            inputP.value = produto.querySelectorAll('p')[2].innerText.replace(" R$", "");
+            inputMaterial.value = produto.querySelector('.material').innerText.replace("Material: ", "");
 
-                inputID.value = produto.querySelector('span').innerText;
-                inputN.value = produto.querySelector('h3').innerText;
-                inputD.value = produto.querySelectorAll('p')[0].innerText;
-                categoria.value = produto.querySelectorAll('p')[1].innerText;
-                inputP.value = produto.querySelectorAll('p')[2].innerText.replace(" R$", "");
-
-                updateForm.style.display = "block";
+            // CORES
+            coresUpdate.innerHTML = "";
+            const cores = JSON.parse(produto.querySelector('.cores').innerText.replace("Cores:", ""));
+            cores.forEach(cor => {
+            addCorUpdate(cor.nome, cor.hex);
             });
+
+            // TAMANHOS
+            tamanhosUpdate.innerHTML = "";
+            const tamanhos = JSON.parse(produto.querySelector('.tamanhos').innerText.replace("Tamanhos:", ""));
+            tamanhos.forEach(t => addTamanhoUpdate(t));
+
+            updateForm.style.display = "block";
         });
+        });
+
+        function addCorUpdate(nome = "", hex = "#000000") {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <input type="text" name="coresNome[]" value="${nome}" placeholder="Cor">
+            <input type="color" name="coresHex[]" value="${hex}">
+        `;
+        coresUpdate.appendChild(div);
+        }
+
+        function addTamanhoUpdate(valor = "") {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <input type="text" name="tamanhos[]" value="${valor}" placeholder="Tamanho">
+        `;
+        tamanhosUpdate.appendChild(div);
+        }
     </script>
+
 </body>
 </html>

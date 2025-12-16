@@ -16,7 +16,9 @@ async function createProduct(data, filename) {
                 categoria: data.categoria,
                 preco: data.preco,
                 img: filename,
-                cores
+                cores,
+                tamanhos: data.tamanhos,
+                material: data.material
             }
         });
         
@@ -31,6 +33,18 @@ async function createProduct(data, filename) {
 async function getProdutos() {
     try {
         const produtos = await prisma.produtos.findMany();
+        
+        return produtos;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+async function getProdutosCATEGORIA(categoria) {
+    try {
+        const produtos = await prisma.produtos.findMany({ where: {categoria: categoria} });
         
         return produtos;
     } catch (error) {
@@ -91,5 +105,6 @@ module.exports = {
     getProdutos,
     deleteProdutoID,
     updateProduto,
-    getProdutoID
+    getProdutoID,
+    getProdutosCATEGORIA
 }

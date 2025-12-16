@@ -1,3 +1,5 @@
+let quantity = 1;
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeColorButtons();
     initializeSizeButtons();

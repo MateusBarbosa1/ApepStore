@@ -21,5 +21,7 @@ model Produtos {
   preco          Decimal  @db.Decimal(10, 2)
   img            String
   cores          Json
+  tamanhos       Json
+  material       String
   createdAt DateTime @default(now())
 }

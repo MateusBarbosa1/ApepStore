@@ -293,23 +293,23 @@ span {
 ========================= */
 .produto-single .content-produto button {
   border: none;
-  background-color: #008000;
+  background-color: #0069d9;
   border-radius: 19px;
   color: white;
   cursor: pointer;
   font-size: 15px;
-  padding: 5px 20px;
-  margin-bottom: 20px;
+  padding: 7px 25px;
+  margin-bottom: 15px;
 }
 
 /* Hover do botão comprar */
 .produto-single .content-produto button:hover {
-  background-color: #22c022;
+  background-color: #153498;
   transition: background-color 0.3s ease;
 }
 center button {
   border: none;
-  background-color: black;
+  background-color: #0069d9;
   border-radius: 19px;
   color: white;
   cursor: pointer;
