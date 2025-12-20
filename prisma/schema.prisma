@@ -12,6 +12,7 @@ model Usuarios {
   nome   String
   email  String @unique
   senha  String
+  carrinho  Json?
 }
 model Produtos {
   id_produto     String @id @default(uuid())

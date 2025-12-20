@@ -202,9 +202,13 @@
 
                     <!-- Action Buttons -->
                     <div class="action-buttons">
-                        <button class="btn btn-secondary">Adicionar ao Carrinho</button>
-                        <button class="btn btn-primary">Comprar Agora</button>
-
+                        <% if(nome) { %>
+                          <button class="btn btn-secondary btn-cart" data-id="<%= produto[0].id_produto %>">Adicionar ao Carrinho</button>
+                          <button class="btn btn-primary btn-comprar">Comprar Agora</button>
+                        <% } else { %>
+                          <button class="btn btn-secondary" onclick="window.location.href='/carrinho'">Adicionar ao Carrinho</button>
+                          <button class="btn btn-primary btn-comprar">Comprar Agora</button>
+                        <% } %>
                     </div>
 
                     <!-- Buy Now Button -->

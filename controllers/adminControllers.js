@@ -2,41 +2,54 @@ const { jwtDecode } = require('jwt-decode');
 const path = require('path');
 const fs = require('fs');
 
-module.exports.renderPageLogin = function(app,req,res) {
+/**
+ * Renderiza a página de login do admin
+ */
+module.exports.renderPageLogin = function (app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
-            res.render('admin/admin');
+
+        // Verifica se é admin
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
+            return res.render('admin/admin');
         }
-    } else {
-        res.render('admin/login');
     }
-}
-module.exports.getAllUsers = async function(app,req,res,type) {
+
+    // Não logado ou não é admin → login admin
+    res.render('admin/login');
+};
+
+/**
+ * Retorna todos os usuários (JSON ou HTML)
+ */
+module.exports.getAllUsers = async function (app, req, res, type) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
 
         const usuariosModel = require('../models/usuariosModel');
         const usuarios = await usuariosModel.getUsuarios();
 
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
-            if(type == 'json') { // retorna os dados em json
-                res.json(usuarios);
-            } else if(type == 'body') { // retorna os dados no body
-                res.render('admin/get-all-users.html', {usuarios: usuarios});
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
+            if (type === 'json') {
+                return res.json(usuarios);
+            } else if (type === 'body') {
+                return res.render('admin/get-all-users.html', { usuarios });
             }
-        } else { // manda para o login admin
-            res.redirect('/admin');
         }
-    } else {
-        res.redirect('/admin');
     }
-}
-module.exports.autenticarAdmin = function(app,req,res) {
+
+    // Redireciona para login admin caso não autorizado
+    res.redirect('/admin');
+};
+
+/**
+ * Autentica o admin e cria token JWT
+ */
+module.exports.autenticarAdmin = function (app, req, res) {
     const jwt = require('jsonwebtoken');
 
     const USUARIO = process.env.USUARIO_ADMIN;
@@ -46,7 +59,7 @@ module.exports.autenticarAdmin = function(app,req,res) {
     const data = req.body;
 
     if (data.user === USUARIO && data.password === PASSWORD) {
-        // Gera JWT com expiração de 1 hora
+        // Gera JWT com expiração de 1h
         const token_admin = jwt.sign({ user: data.user }, SECRET, { expiresIn: '1h' });
 
         // Cria cookie seguro
@@ -56,168 +69,155 @@ module.exports.autenticarAdmin = function(app,req,res) {
             sameSite: 'lax'
         });
 
-        res.render('admin/admin');
-    } else {
-        res.redirect('/');
+        return res.render('admin/admin');
     }
 
-}
-module.exports.deletarUsuario = async function(app,req,res) {
+    // Login incorreto → redireciona para home
+    res.redirect('/');
+};
+
+/**
+ * Deleta um usuário pelo ID
+ */
+module.exports.deletarUsuario = async function (app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
 
-        const usuariosModel = require('../models/usuariosModel');
-
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
             const idBody = req.body.id;
+            const usuariosModel = require('../models/usuariosModel');
 
             await usuariosModel.deleteUsuarioID(idBody);
-            res.redirect('/admin/getAllUsers')
-
-        } else { // manda para o login admin
-            res.redirect('/admin');
+            return res.redirect('/admin/getAllUsers');
         }
-    } else {
-        res.redirect('/admin');
     }
-}
-module.exports.renderCreateProduct = function(app,req,res) {
+
+    res.redirect('/admin');
+};
+
+/**
+ * Renderiza página de criação de produto
+ */
+module.exports.renderCreateProduct = function (app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
-            res.render('admin/create-product.html');
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
+            return res.render('admin/create-product.html');
         }
-    } else {
-        res.redirect('/admin');
     }
-}
-module.exports.createProduct = async function(app, req, res) {
+
+    res.redirect('/admin');
+};
+
+/**
+ * Cria um novo produto (com upload de imagem)
+ */
+module.exports.createProduct = async function (app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
 
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
             const data = req.body;
-            const file = req.file; // arquivo enviado pelo multer
-
+            const file = req.file;
             let novoNome = "";
 
-            if(file) {
-                // Cria nome seguro: categoria-nome.ext
+            if (file) {
+                // Cria nome seguro para a imagem
                 const categoriaSafe = (data.categoria || "geral").replace(/\s+/g, "_").replace(/[^\w\-]/g, "");
                 const nomeSafe = (data.nome || "produto").replace(/\s+/g, "_").replace(/[^\w\-]/g, "");
                 const novaExt = path.extname(file.originalname);
                 novoNome = `${categoriaSafe}-${nomeSafe}${novaExt}`;
 
-                // Caminhos
                 const oldPath = file.path;
                 const newPath = path.join(path.dirname(oldPath), novoNome);
 
-                // Renomeia o arquivo
                 fs.renameSync(oldPath, newPath);
-
-                // Atualiza o body com o nome do arquivo
                 data.imagem = novoNome;
             }
 
             const produtosModel = require('../models/produtosModel');
-            const produtoCriado = await produtosModel.createProduct(data, novoNome);
+            await produtosModel.createProduct(data, novoNome);
 
-            if (produtoCriado != false) {
-                res.redirect('/admin/createProduct');
-            }
-        } else {
-            res.redirect('/admin');
+            return res.redirect('/admin/createProduct');
         }
-    } else {
-        res.redirect('/admin');
     }
-}
-module.exports.getProdutos = async function(app,req,res,type) {
+
+    res.redirect('/admin');
+};
+
+/**
+ * Retorna todos os produtos (JSON ou HTML)
+ */
+module.exports.getProdutos = async function (app, req, res, type) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
-            const data = req.body;
-
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
             const produtosModel = require('../models/produtosModel');
             const produtos = await produtosModel.getProdutos();
-            
-            if(type == 'json') {
-                res.json(produtos);
-            } else if(type == 'body') {
-                res.render('admin/get-all-produtos', {produtos: produtos});
-            }
+
+            if (type === 'json') return res.json(produtos);
+            if (type === 'body') return res.render('admin/get-all-produtos', { produtos });
         }
-    } else {
-        res.redirect('/admin');
     }
-}
-module.exports.deleteProduto = async function(app, req, res) {
+
+    res.redirect('/admin');
+};
+
+/**
+ * Deleta um produto e sua imagem
+ */
+module.exports.deleteProduto = async function (app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
 
-        const produtosModel = require('../models/produtosModel');
-
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { 
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
             const idBody = req.body.id;
+            const produtosModel = require('../models/produtosModel');
 
             const produtoDeleted = await produtosModel.getProdutoID(idBody);
             await produtosModel.deleteProdutoID(idBody);
 
-            console.log(produtoDeleted);
-
-            const imagePath = path.join(
-                process.cwd(),
-                'public',
-                'images',
-                'produtos',
-                produtoDeleted[0].img
-            );
+            const imagePath = path.join(process.cwd(), 'public', 'images', 'produtos', produtoDeleted[0].img);
 
             fs.unlink(imagePath, (err) => {
-                if(err) {
-                    console.error('Erro ao deletar a imagem:', err);
-                } else {
-                    console.log('Imagem deletada com sucesso!');
-                }
+                if (err) console.error('Erro ao deletar a imagem:', err);
+                else console.log('Imagem deletada com sucesso!');
             });
 
-            res.redirect('/admin/getProdutos');
-
-        } else {
-            res.redirect('/admin');
+            return res.redirect('/admin/getProdutos');
         }
-    } else {
-        res.redirect('/admin');
     }
-}
-module.exports.updateProduto = async function(app,req,res) {
+
+    res.redirect('/admin');
+};
+
+/**
+ * Atualiza um produto existente
+ */
+module.exports.updateProduto = async function (app, req, res) {
     const tokenAdmin = req.cookies['admin_token'];
 
-    if(tokenAdmin) {
+    if (tokenAdmin) {
         const tokenAdminDecoded = jwtDecode(tokenAdmin);
 
-        const produtosModel = require('../models/produtosModel');
-
-        if(tokenAdminDecoded.user == process.env.USUARIO_ADMIN) { // verifica token de admin
+        if (tokenAdminDecoded.user == process.env.USUARIO_ADMIN) {
             const data = req.body;
+            const produtosModel = require('../models/produtosModel');
 
-            await produtosModel.updateProduto(req.body.id,data);
-            res.redirect('/admin/getProdutos');
-
-        } else { // manda para o login admin
-            res.redirect('/admin');
+            await produtosModel.updateProduto(data.id, data);
+            return res.redirect('/admin/getProdutos');
         }
-    } else {
-        res.redirect('/admin');
     }
-}
+
+    res.redirect('/admin');
+};

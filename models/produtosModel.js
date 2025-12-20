@@ -2,13 +2,18 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+/**
+ * Cria um novo produto no banco
+ */
 async function createProduct(data, filename) {
     try {
+        // Monta array de cores a partir dos dados enviados
         const cores = data.coresNome.map((nome, index) => ({
             nome,
             hex: data.coresHex[index]
         }));
 
+        // Cria o produto
         const produtoCriado = await prisma.produtos.createMany({
             data: {
                 nome_produto: data.nome,
@@ -21,7 +26,7 @@ async function createProduct(data, filename) {
                 material: data.material
             }
         });
-        
+
         return produtoCriado;
     } catch (error) {
         console.error(error);
@@ -30,11 +35,13 @@ async function createProduct(data, filename) {
         await prisma.$disconnect();
     }
 }
+
+/**
+ * Retorna todos os produtos
+ */
 async function getProdutos() {
     try {
-        const produtos = await prisma.produtos.findMany();
-        
-        return produtos;
+        return await prisma.produtos.findMany();
     } catch (error) {
         console.error(error);
         return false;
@@ -42,11 +49,13 @@ async function getProdutos() {
         await prisma.$disconnect();
     }
 }
+
+/**
+ * Retorna produtos filtrando por categoria
+ */
 async function getProdutosCATEGORIA(categoria) {
     try {
-        const produtos = await prisma.produtos.findMany({ where: {categoria: categoria} });
-        
-        return produtos;
+        return await prisma.produtos.findMany({ where: { categoria } });
     } catch (error) {
         console.error(error);
         return false;
@@ -54,6 +63,10 @@ async function getProdutosCATEGORIA(categoria) {
         await prisma.$disconnect();
     }
 }
+
+/**
+ * Deleta um produto pelo ID
+ */
 async function deleteProdutoID(id) {
     try {
         await prisma.produtos.deleteMany({ where: { id_produto: id } });
@@ -65,12 +78,14 @@ async function deleteProdutoID(id) {
         await prisma.$disconnect();
     }
 }
-async function updateProduto(id,data) {
+
+/**
+ * Atualiza um produto existente
+ */
+async function updateProduto(id, data) {
     try {
         await prisma.produtos.updateMany({
-            where: {
-                id_produto: id
-            },
+            where: { id_produto: id },
             data: {
                 nome_produto: data.nome_produto,
                 descricao: data.descricao,
@@ -86,11 +101,13 @@ async function updateProduto(id,data) {
         await prisma.$disconnect();
     }
 }
+
+/**
+ * Retorna um produto pelo ID
+ */
 async function getProdutoID(id) {
     try {
-        const produto = await prisma.produtos.findMany({ where: {id_produto: id} });
-        
-        return produto;
+        return await prisma.produtos.findMany({ where: { id_produto: id } });
     } catch (error) {
         console.error(error);
         return false;
@@ -99,7 +116,6 @@ async function getProdutoID(id) {
     }
 }
 
-
 module.exports = {
     createProduct,
     getProdutos,
@@ -107,4 +123,4 @@ module.exports = {
     updateProduto,
     getProdutoID,
     getProdutosCATEGORIA
-}
+};

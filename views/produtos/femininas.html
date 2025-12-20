@@ -101,33 +101,39 @@
         <% for(let i = 0;i < femininas.length;i++) { %>
             <% const preco = Number(femininas[i].preco); %>
 
-            <div class="produto-single"
-                style="cursor: pointer;"
-                onclick="window.location.href = '/produto-single/<%= femininas[i].id_produto %>'">
-
+            <div class="produto-single" data-id="<%= femininas[i].id_produto %>" style="cursor: pointer">
               <div class="img-produto">
                 <img src="images/produtos/<%= femininas[i].img %>" alt="" />
 
-                <!-- BOTÃO SOBRE A IMAGEM -->
-                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
-                  <span class="material-symbols-outlined">shopping_cart</span>
-                </button>
+                <% if (nome) { %>
+                  <button class="btn-carrinho" data-id="<%= femininas[i].id_produto %>">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </button>
+                <% } else { %>
+                  <button class="btn-carrinho" onclick="window.location.href='/carrinho'">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </button>
+                <% } %>
               </div>
 
               <div class="content-produto">
-                <h2><%= femininas[i].nome_produto %></h2>
-                <h3>R$ <%= preco.toFixed(2) %></h3>
+                <h2 class="product-name"><%= femininas[i].nome_produto %></h2>
+                <h3 class="product-price">R$ <%= femininas[i].preco.toFixed(2) %></h3>
                 <p>3x de R$ <%= (femininas[i].preco / 3).toFixed(2) %> sem juros!</p>
-                <button>COMPRAR</button>
+
+                <% if (nome) { %>
+                  <button class="btn-comprar" data-id="<%= femininas[i].id_produto %>">COMPRAR</button>
+                <% } else { %>
+                  <button class="btn-comprar" onclick="window.location.href='/login'">COMPRAR</button>
+                <% } %>
               </div>
-
             </div>
-
       <% } %>
       </div>
     </section>
 
     <!-- Util.js -->
+     <script src="js/carrinho.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/mobile-menu.js"></script>

@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const path = require("path");
 
+app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.engine("html", require("ejs").renderFile);
@@ -27,25 +28,26 @@ fs.readdirSync(routesPath).forEach((file) => {
     }
 });
 
-app.use(async (req,res,next) => {
+app.use(async (req, res) => {
+    const { jwtDecode } = require('jwt-decode');
     const token = req.cookies['token'];
 
-    if(token) {
-        const usuariosModel = require('./models/usuariosModel');
+    if (token) {
+        try {
+            const usuariosModel = require('./models/usuariosModel');
+            const tokenDecoded = jwtDecode(token);
+            const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
 
-        const tokenDecoded = jwtDecode(token);
-        const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
-
-        if(usuario.length != 0) {
-            const firstName = usuario[0].nome.split(' ')[0];
-            res.render('404', {nome: firstName});
-        } else {
+            if (usuario.length !== 0) {
+                const firstName = usuario[0].nome.split(' ')[0];
+                return res.status(404).render('404', { nome: firstName });
+            }
+        } catch (err) {
             res.clearCookie('token');
-            res.render('404', {nome: false});
         }
-    } else {
-        res.render('404', {nome: false});
     }
+
+    return res.status(404).render('404', { nome: false });
 });
 
 app.listen(3000, "0.0.0.0", () => {

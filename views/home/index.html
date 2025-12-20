@@ -37,7 +37,7 @@
           <img src="images/logo.png" alt="" />
         </div>
         <div class="icon-mobile">
-          <span class="material-symbols-outlined" style="font-size: 27px">
+          <span class="material-symbols-outlined" style="font-size: 27px" onclick="window.location.href = '/carrinho'">
             shopping_cart
           </span>
         </div>
@@ -59,7 +59,7 @@
             <% } %>
           </div>
           <div class="carrinho-option">
-            <span class="material-symbols-outlined"> shopping_cart </span>
+            <span class="material-symbols-outlined" onclick="window.location.href = '/carrinho'"> shopping_cart </span>
           </div>
         </nav>
       </div>
@@ -150,27 +150,34 @@
           <% if(produtos[i].categoria == 'camisetas' || produtos[i].categoria == 'femininas') { %>
             <% const preco = Number(produtos[i].preco); %>
 
-            <div class="produto-single"
-                style="cursor: pointer;"
-                onclick="window.location.href = '/produto-single/<%= produtos[i].id_produto %>'">
-
+            <div class="produto-single" data-id="<%= produtos[i].id_produto %>" style="cursor: pointer">
               <div class="img-produto">
                 <img src="images/produtos/<%= produtos[i].img %>" alt="" />
 
-                <!-- BOTÃO SOBRE A IMAGEM -->
-                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
-                  <span class="material-symbols-outlined">shopping_cart</span>
-                </button>
+                <% if (nome) { %>
+                  <button class="btn-carrinho" data-id="<%= produtos[i].id_produto %>">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </button>
+                <% } else { %>
+                  <button class="btn-carrinho" onclick="window.location.href='/carrinho'">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </button>
+                <% } %>
               </div>
 
               <div class="content-produto">
-                <h2><%= produtos[i].nome_produto %></h2>
-                <h3>R$ <%= preco.toFixed(2) %></h3>
+                <h2 class="product-name"><%= produtos[i].nome_produto %></h2>
+                <h3 class="product-price">R$ <%= produtos[i].preco.toFixed(2) %></h3>
                 <p>3x de R$ <%= (produtos[i].preco / 3).toFixed(2) %> sem juros!</p>
-                <button>COMPRAR</button>
-              </div>
 
+                <% if (nome) { %>
+                  <button class="btn-comprar" data-id="<%= produtos[i].id_produto %>">COMPRAR</button>
+                <% } else { %>
+                  <button class="btn-comprar" onclick="window.location.href='/login'">COMPRAR</button>
+                <% } %>
+              </div>
             </div>
+
           <% } %>
 
       <% } %>
@@ -191,28 +198,34 @@
       <div class="sapatos-destaque">
         <% for(let u = 0;u < produtos.length;u++) { %>
           <% if(produtos[u].categoria == 'sapatos') { %>
-            <% const precoS = Number(produtos[u].preco); %>
+            <% const preco = Number(produtos[u].preco); %>
 
-            <div class="produto-single"
-                style="cursor: pointer;"
-                onclick="window.location.href = '/produto-single/<%= produtos[u].id_produto %>'">
-
+            <div class="produto-single" data-id="<%= produtos[u].id_produto %>" style="cursor: pointer">
               <div class="img-produto">
                 <img src="images/produtos/<%= produtos[u].img %>" alt="" />
 
-                <!-- BOTÃO SOBRE A IMAGEM -->
-                <button class="btn-carrinho btn-secondary" onclick="event.stopPropagation()">
-                  <span class="material-symbols-outlined">shopping_cart</span>
-                </button>
+                <% if (nome) { %>
+                  <button class="btn-carrinho" data-id="<%= produtos[u].id_produto %>">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </button>
+                <% } else { %>
+                  <button class="btn-carrinho" onclick="window.location.href='/carrinho'">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </button>
+                <% } %>
               </div>
 
               <div class="content-produto">
-                <h2><%= produtos[u].nome_produto %></h2>
-                <h3>R$ <%= precoS.toFixed(2) %></h3>
+                <h2 class="product-name"><%= produtos[u].nome_produto %></h2>
+                <h3 class="product-price">R$ <%= produtos[u].preco.toFixed(2) %></h3>
                 <p>3x de R$ <%= (produtos[u].preco / 3).toFixed(2) %> sem juros!</p>
-                <button>COMPRAR</button>
-              </div>
 
+                <% if (nome) { %>
+                  <button class="btn-comprar" data-id="<%= produtos[u].id_produto %>">COMPRAR</button>
+                <% } else { %>
+                  <button class="btn-comprar" onclick="window.location.href='/login'">COMPRAR</button>
+                <% } %>
+              </div>
             </div>
           <% } %>
 
@@ -232,6 +245,7 @@
 
     <!-- Util.js -->
      <script src="js/produto.js"></script>
+     <script src="js/carrinho.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/mobile-menu.js"></script>

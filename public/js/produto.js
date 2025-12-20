@@ -1,22 +1,40 @@
 let quantity = 1;
+let selectedColor = null;
+let selectedSize = null;
+let shippingCost = 0;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    setDefaultSelections();
     initializeColorButtons();
     initializeSizeButtons();
     initializeQuantityInput();
+    setupAddToCart();
+    setupBuyNow();
 });
+
+// ===========================
+// Valores padrão
+// ===========================
+function setDefaultSelections() {
+    const defaultColorBtn = document.querySelector('.color-btn.active');
+    if (defaultColorBtn) selectedColor = defaultColorBtn.dataset.color;
+
+    const defaultSizeBtn = document.querySelector('.size-btn.active');
+    if (defaultSizeBtn) selectedSize = defaultSizeBtn.textContent;
+
+    const qtyInput = document.getElementById('quantity');
+    if (qtyInput) quantity = parseInt(qtyInput.value) || 1;
+}
 
 // ===========================
 // CORES
 // ===========================
-
 function initializeColorButtons() {
-    const colorButtons = document.querySelectorAll('.color-btn');
-    colorButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            colorButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            selectedColor = this.dataset.color;
+    document.querySelectorAll('.color-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedColor = btn.dataset.color;
         });
     });
 }
@@ -24,14 +42,12 @@ function initializeColorButtons() {
 // ===========================
 // TAMANHOS
 // ===========================
-
 function initializeSizeButtons() {
-    const sizeButtons = document.querySelectorAll('.size-btn');
-    sizeButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            sizeButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            selectedSize = this.textContent;
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = btn.textContent;
         });
     });
 }
@@ -39,141 +55,118 @@ function initializeSizeButtons() {
 // ===========================
 // QUANTIDADE
 // ===========================
-
 function initializeQuantityInput() {
-    const quantityInput = document.getElementById('quantity');
-    quantityInput.addEventListener('change', function() {
-        if (this.value < 1) this.value = 1;
-        quantity = parseInt(this.value);
-        updatePriceSummary();
+    const qtyInput = document.getElementById('quantity');
+    qtyInput.addEventListener('change', () => {
+        if (qtyInput.value < 1) qtyInput.value = 1;
+        quantity = parseInt(qtyInput.value);
     });
 }
 
 function increaseQuantity() {
     quantity++;
     document.getElementById('quantity').value = quantity;
-    updatePriceSummary();
 }
 
 function decreaseQuantity() {
     if (quantity > 1) {
         quantity--;
         document.getElementById('quantity').value = quantity;
-        updatePriceSummary();
     }
-}
-
-// ===========================
-// CÁLCULO DE FRETE
-// ===========================
-
-function calculateShipping() {
-    const zipCode = document.getElementById('zipCode').value;
-    
-    // Validar CEP
-    if (zipCode.length < 5) {
-        alert('Digite um CEP válido!');
-        return;
-    }
-
-    // Simular cálculo de frete
-    // Fórmula: R$ 10 + R$ 2 por dígito do CEP
-    shippingCost = 10 + (zipCode.length * 2);
-
-    // Exibir resultado
-    document.getElementById('zipDisplay').textContent = zipCode;
-    document.getElementById('shippingCost').textContent = shippingCost.toFixed(2);
-    document.getElementById('shippingResult').style.display = 'block';
-
-    // Atualizar resumo de preço
-    updatePriceSummary();
-}
-
-// ===========================
-// RESUMO DE PREÇO
-// ===========================
-
-function updatePriceSummary() {
-    const subtotal = PRODUCT_PRICE * quantity;
-    const total = subtotal + shippingCost;
-
-    document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
-    document.getElementById('shippingFee').textContent = `R$ ${shippingCost.toFixed(2)}`;
-    document.getElementById('totalPrice').textContent = `R$ ${total.toFixed(2)}`;
-
-    // Mostrar resumo apenas se houver frete calculado
-    if (shippingCost > 0) {
-        document.getElementById('priceSummary').style.display = 'block';
-    }
-}
-// ===========================
-// NOTIFICAÇÕES
-// ===========================
-
-function showNotification(message) {
-    // Criar elemento de notificação
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background-color: #10b981;
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        animation: slideIn 0.3s ease;
-    `;
-    notification.textContent = message;
-
-    // Adicionar animação
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-
-    document.body.appendChild(notification);
-
-    // Remover após 3 segundos
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
 }
 
 // ===========================
 // ADICIONAR AO CARRINHO
 // ===========================
+function setupAddToCart() {
+    document.querySelectorAll('.btn-cart').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const PRODUCT_ID = btn.dataset.id;
 
-document.addEventListener('DOMContentLoaded', function () {
-  const addToCartBtns = document.querySelectorAll('.btn-secondary');
+            try {
+                const response = await fetch(`/add-carrinho`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: PRODUCT_ID,
+                        qtd: quantity,
+                        cor: selectedColor,
+                        size: selectedSize
+                    })
+                });
 
-  addToCartBtns.forEach(btn => {
-    btn.addEventListener('click', function () {
-      showNotification(`item adicionado ao carrinho!`);
+                if(!response.ok) {
+                    showNotification('Produto já está no carrinho!', 'error');
+                } else {
+                    showNotification('Produto adicionado ao carrinho', 'success');
+                    window.location.href='/carrinho';
+                }
+            } catch (err) {
+                console.error(err);
+                showNotification('Erro ao adicionar ao carrinho', 'error');
+            }
+        });
     });
-  });
-});
+}
+
+// ===========================
+// COMPRAR AGORA
+// ===========================
+function setupBuyNow() {
+    document.querySelectorAll('.btn-comprar').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const PRODUCT_ID = btn.dataset.id;
+
+            try {
+                const response = await fetch(`/add-carrinho`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: PRODUCT_ID,
+                        qtd: quantity,
+                        cor: selectedColor,
+                        size: selectedSize
+                    })
+                });
+
+                if(!response.ok) throw new Error('Não foi possível adicionar o produto');
+
+                showNotification('Produto adicionado! Redirecionando...', 'success');
+                setTimeout(() => window.location.href = '/checkout', 500);
+
+            } catch (err) {
+                console.error(err);
+                showNotification('Erro ao comprar o produto', 'error');
+            }
+        });
+    });
+}
+
+// ===========================
+// NOTIFICAÇÃO
+// ===========================
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        color: white;
+        background-color: ${type === 'success' ? '#10b981' : '#f44336'};
+        z-index: 1000;
+        font-family: 'Lato', sans-serif;
+        font-weight: 500;
+        animation: slideIn 0.3s ease;
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}

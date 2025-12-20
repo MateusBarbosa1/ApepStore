@@ -5,7 +5,7 @@ Este projeto implementa a estrutura completa de um back-end profissional para um
 ---
 
 ## ✅ Funcionalidades Essenciais
-- [ ] API REST para gerenciamento do catálogo de produtos  
+- [ x ] API REST para gerenciamento do catálogo de produtos  
 - [ x ] Sistema de cadastro, login e autenticação de usuários  
 - [ x ] Persistência de dados com banco relacional  
 - [ ] Carrinho de compras vinculado ao usuário  
@@ -16,15 +16,15 @@ Este projeto implementa a estrutura completa de um back-end profissional para um
 
 ## 🧰 Funcionalidades Intermediárias
 - [ x ] CRUD completo de produtos (nome, descrição, preço, estoque e imagens)  
-- [ ] CRUD de categorias e subcategorias
+- [ x ] CRUD de categorias e subcategorias
 - [ ] Controle de estoque integrado ao processo de compra  
-- [ ] Sistema de cupons de desconto  
+- [ ] Sistema de cupons de desconto   
 - [ ] Regras de promoção (frete grátis, % off etc.)  
 - [ ] Cálculo automático de frete e prazo  
 - [ ] Histórico completo de pedidos por usuário  
-- [ ] Painel administrativo (API) para gerenciar produtos, usuários e pedidos  
+- [ x ] Painel administrativo (API) para gerenciar produtos, usuários e pedidos  
 - [ ] Pagamentos integrados (Pix, cartão ou gateway simulado)  
-- [ ] Proteção de rotas com permissões (admin / usuário)  
+- [ x ] Proteção de rotas com permissões (admin / usuário)  
 
 ---
 
