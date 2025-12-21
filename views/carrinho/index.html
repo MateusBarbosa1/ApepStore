@@ -37,7 +37,7 @@
           <span class="material-symbols-outlined"> menu </span>
         </div>
         <div class="logo">
-          <img src="images/logo.png" alt="" />
+          <img src="images/logo.png" alt="" onclick="window.location.href = '/';" />
         </div>
         <div class="icon-mobile">
           <span class="material-symbols-outlined" style="font-size: 27px" onclick="window.location.href = '/carrinho'">
@@ -94,8 +94,14 @@
     <div class="rota">
       <h2>Carrinho</h2>
     </div>
-    <% if(produtos == false) { %>
-    <p style="text-align: center;"><a href="/login">Entre</a> na sua conta para ter acesso ao carrinho!</p>
+    <% if(produtos === false) { %>
+      <p style="text-align:center;">
+          <a href="/login">Entre</a> na sua conta para ter acesso ao carrinho!
+      </p>
+    <% } %>
+
+    <% if(produtos && produtos.length === 0) { %>
+        <p style="text-align:center;">Seu carrinho está vazio</p>
     <% } else { %>
     <div class="container">
         <!-- Main Content -->
@@ -104,23 +110,31 @@
             <section class="products-section">
                 <div class="products-list">
                     <!-- Produto 1 -->
+                     <% for(let i = 0;i < produtos.length;i++) { %>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop" alt="Fone de Ouvido">
+                            <img src="images/produtos/<%= produtos[i].img %>" alt="<%= produtos[i].nome %>">
                         </div>
                         <div class="product-info">
-                            <h3 class="product-name">Fone de Ouvido Wireless</h3>
+                            <h3 class="product-name"><%= produtos[i].nome %></h3>
+                            <% if(produtos[i].cor == 'null') { %>
+                              <span><a href="/produto-single/<%= produtos[i].id %>">Escolher Cor e Tamanho</a></span>
+                            <% } else {%>
+                              <span><%= produtos[i].cor %></span>
+                              <span><%= produtos[i].tamanho %></span>
+                            <% } %>
                             <div class="product-footer">
-                                <span class="product-price">R$ 299,90</span>
+                                <span class="product-price">R$ <%= produtos[i].preco.toFixed(2) %></span>
                                 <div class="quantity-control">
                                     <button class="qty-btn">−</button>
-                                    <input type="number" class="qty-input" value="1" min="1">
+                                    <input type="number" class="qty-input" data-id="<%= produtos[i].id %>" value="<%= produtos[i].qtd %>" min="1">
                                     <button class="qty-btn">+</button>
                                 </div>
                             </div>
                         </div>
-                        <button class="remove-btn" title="Remover item">✕</button>
+                        <button class="remove-btn" data-id="<%= produtos[i].id %>" title="Remover item">✕</button>
                     </div>
+                    <% } %>
                 </div>
             </section>
 
@@ -128,26 +142,26 @@
             <aside class="cart-summary">
                 <h2 class="summary-title">Resumo</h2>
                 
-                <div class="summary-row">
+                <div class="summary-row subtotal">
                     <span class="summary-label">Subtotal</span>
-                    <span class="summary-value">R$ 2.589,60</span>
+                    <span class="summary-value">R$ 0,00</span>
                 </div>
 
                 <div class="summary-row">
                     <span class="summary-label">Frete</span>
-                    <span class="summary-value">R$ 15,00</span>
+                    <span class="summary-value">R$ 0,00</span>
                 </div>
 
                 <div class="summary-row">
                     <span class="summary-label">Desconto</span>
-                    <span class="summary-value discount">−R$ 50,00</span>
+                    <span class="summary-value discount">−R$ 0,00</span>
                 </div>
 
                 <div class="summary-divider"></div>
 
                 <div class="summary-row total">
                     <span class="summary-label">Total</span>
-                    <span class="summary-value">R$ 2.554,60</span>
+                    <span class="summary-value">R$ 0,00</span>
                 </div>
 
                 <button class="checkout-btn">Finalizar Compra</button>
@@ -166,6 +180,7 @@
     </div>
     <% } %>
 
-    <script src="js/carrinho.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/carrinho-page.js"></script>
 </body>
 </html>
