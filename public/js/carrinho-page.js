@@ -72,7 +72,7 @@ function setupRemoveButtons() {
 
                 const remainingItems = document.querySelectorAll('.product-card');
 
-                if (remainingItems.length === 1) {
+                if (remainingItems.length === 0) {
                     showEmptyCart();
                 } else {
                     updateCartSummary();
