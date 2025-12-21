@@ -112,35 +112,60 @@ DATABASE_URL=<url_do_banco_postgres>
 | POST   | /login            | Autenticação do usuário     |  
 | POST   | /register         | Criação de novo usuário     |  
 | GET    | /account          | Página da conta do usuário  |  
-| POST   | /account/delete   | Deletar conta do usuário    |  
+| GET   | /account/delete    | Deletar conta do usuário    |  
+| GET   | /account/logout    | Sai da conta do usuário     |  
 
 ### Produtos
 
 | Método | Endpoint                         | Descrição                           |  
 |--------|----------------------------------|-------------------------------------|  
 | GET    | /produtos                        | Lista todos os produtos             |  
-| GET    | /produtos/:id                    | Página de um produto específico     |  
-| GET    | /produtos/categoria/:categoria   | Lista produtos por categoria        |  
+| GET    | /produto-single/:id                    | Página de um produto específico     |  
+| GET    | /camisetas   | Lista todas as camisetas        |  
+| GET    | /sapatos   | Lista todos os sapatos        |  
+| GET    | /roupas-femininas   | Lista todas as roupas femininas        |  
 
 ### Carrinho  
 
 | Método | Endpoint             | Descrição                     |  
 |--------|----------------------|-------------------------------|  
 | GET    | /carrinho            | Página do carrinho            |  
-| POST   | /carrinho/add/:id    | Adiciona produto ao carrinho  |  
+| POST   | /add-carrinho    | Adiciona produto ao carrinho  |  
+| POST   | /carrinho/update-qtd    | Atualiza quantidade do produto no carrinho  |  
+| POST   | /carrinho/remove    | Remove produto do carrinho  |  
 
-### Admin
+### Rotas de Administração (Admin)
 
-| Método | Endpoint                   | Descrição                        |  
-|--------|----------------------------|----------------------------------|  
-| GET    | /admin                     | Login do administrador           |  
-| POST   | /admin/login               | Autentica o administrador        |  
-| GET    | /admin/getProdutos         | Lista todos os produtos          |  
-| POST   | /admin/createProduct       | Cria um novo produto             |  
-| POST   | /admin/deleteProduto       | Deleta um produto existente      |  
-| POST   | /admin/updateProduto       | Atualiza um produto existente    |  
-| GET    | /admin/getAllUsers         | Lista todos os usuários          |  
-| POST   | /admin/deletarUsuario      | Deleta um usuário                |  
+#### Autenticação
+
+| Método | Endpoint        | Descrição                         |
+|--------|-----------------|-----------------------------------|
+| GET    | /admin          | Renderiza a página de login admin |
+| POST   | /admin          | Autentica o administrador         |
+
+---
+
+#### Usuários
+
+| Método | Endpoint                     | Descrição                                  |
+|--------|------------------------------|--------------------------------------------|
+| GET    | /admin/getAllUsers           | Lista todos os usuários (HTML / body)      |
+| GET    | /admin/getAllUsersJSON       | Lista todos os usuários em formato JSON    |
+| POST   | /admin/getAllUsers/delete    | Deleta um usuário                          |
+
+---
+
+#### Produtos
+
+| Método | Endpoint                    | Descrição                                   |
+|--------|-----------------------------|---------------------------------------------|
+| GET    | /admin/getProdutos          | Lista todos os produtos (HTML / body)       |
+| GET    | /admin/getProdutosJSON      | Lista todos os produtos em formato JSON     |
+| GET    | /admin/createProduct        | Renderiza página de criação de produto      |
+| POST   | /admin/createProduct        | Cria um novo produto (com upload de imagem) |
+| POST   | /admin/getProdutos/delete   | Deleta um produto existente                 |
+| POST   | /admin/getProdutos/update   | Atualiza um produto existente               |
+
 
 
 
