@@ -8,7 +8,7 @@ Este projeto implementa a estrutura completa de um back-end profissional para um
 - [ x ] API REST para gerenciamento do catálogo de produtos  
 - [ x ] Sistema de cadastro, login e autenticação de usuários  
 - [ x ] Persistência de dados com banco relacional  
-- [ ] Carrinho de compras vinculado ao usuário  
+- [ x ] Carrinho de compras vinculado ao usuário  
 - [ ] Checkout básico com validações  
 - [ ] Registro e consulta de pedidos realizados  
 
