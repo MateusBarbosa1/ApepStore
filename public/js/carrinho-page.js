@@ -70,6 +70,15 @@ function setupRemoveButtons() {
             setTimeout(async () => {
                 card.remove();
 
+                const remainingItems = document.querySelectorAll('.product-card');
+
+                if (remainingItems.length === 1) {
+                    showEmptyCart();
+                } else {
+                    updateCartSummary();
+                }
+                updateCartSummary();
+
                 // BACKEND
                 await fetch(`/carrinho/remove`, {
                     method: 'POST',
@@ -81,13 +90,7 @@ function setupRemoveButtons() {
                 
 
             }, 300);
-            const remainingItems = document.querySelectorAll('.product-card');
-
-            if (remainingItems.length === 1) {
-                showEmptyCart();
-            } else {
-                updateCartSummary();
-            }
+            
             
         });
     });
