@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carrinho de Compras</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -27,20 +27,28 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
-    <link rel="stylesheet" href="css/carrinho.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/carrinho.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <header>
       <div class="top-header">
         <div class="icon-mobile" style="padding-bottom: 3px">
           <span class="material-symbols-outlined"> menu </span>
         </div>
         <div class="logo">
-          <img src="images/logo.png" alt="" onclick="window.location.href = '/';" />
+          <img
+            src="images/logo.png"
+            alt=""
+            onclick="window.location.href = '/';"
+          />
         </div>
         <div class="icon-mobile">
-          <span class="material-symbols-outlined" style="font-size: 27px" onclick="window.location.href = '/carrinho'">
+          <span
+            class="material-symbols-outlined"
+            style="font-size: 27px"
+            onclick="window.location.href = '/carrinho'"
+          >
             shopping_cart
           </span>
         </div>
@@ -56,13 +64,18 @@
           <div class="login-option">
             <span class="material-symbols-outlined"> person </span>
             <% if(nome) { %>
-              <a href="/account">Olá, <%= nome %></a>
-            <% }  else { %>
-              <a href="/login">Entrar</a>
+            <a href="/account">Olá, <%= nome %></a>
+            <% } else { %>
+            <a href="/login">Entrar</a>
             <% } %>
           </div>
           <div class="carrinho-option">
-            <span class="material-symbols-outlined" onclick="window.location.href = '/carrinho'"> shopping_cart </span>
+            <span
+              class="material-symbols-outlined"
+              onclick="window.location.href = '/carrinho'"
+            >
+              shopping_cart
+            </span>
           </div>
         </nav>
       </div>
@@ -77,9 +90,9 @@
         <div class="login-option">
           <span class="material-symbols-outlined"> person </span>
           <% if(nome) { %>
-            <a href="/account">Olá, <%= nome %></a>
-          <% }  else { %>
-            <a href="/login">Entrar</a>
+          <a href="/account">Olá, <%= nome %></a>
+          <% } else { %>
+          <a href="/login">Entrar</a>
           <% } %>
         </div>
       </div>
@@ -95,92 +108,111 @@
       <h2>Carrinho</h2>
     </div>
     <% if(produtos === false) { %>
-      <p style="text-align:center;">
-          <a href="/login">Entre</a> na sua conta para ter acesso ao carrinho!
-      </p>
-    <% } %>
-
-    <% if(produtos && produtos.length === 0) { %>
-        <p style="text-align:center;">Seu carrinho está vazio</p>
+    <p style="text-align: center">
+      <a href="/login">Entre</a> na sua conta para ter acesso ao carrinho!
+    </p>
+    <% } else { %> <% if(produtos && produtos.length === 0) { %>
+    <p style="text-align: center">Seu carrinho está vazio</p>
     <% } else { %>
     <div class="container">
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Produtos -->
-            <section class="products-section">
-                <div class="products-list">
-                    <!-- Produto 1 -->
-                     <% for(let i = 0;i < produtos.length;i++) { %>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="images/produtos/<%= produtos[i].img %>" alt="<%= produtos[i].nome %>">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name"><%= produtos[i].nome %></h3>
-                            <% if(produtos[i].cor == 'null') { %>
-                              <span><a href="/produto-single/<%= produtos[i].id %>">Escolher Cor e Tamanho</a></span>
-                            <% } else {%>
-                              <span><%= produtos[i].cor %></span>
-                              <span><%= produtos[i].tamanho %></span>
-                            <% } %>
-                            <div class="product-footer">
-                                <span class="product-price">R$ <%= produtos[i].preco.toFixed(2) %></span>
-                                <div class="quantity-control">
-                                    <button class="qty-btn">−</button>
-                                    <input type="number" class="qty-input" data-id="<%= produtos[i].id %>" value="<%= produtos[i].qtd %>" min="1">
-                                    <button class="qty-btn">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="remove-btn" data-id="<%= produtos[i].id %>" title="Remover item">✕</button>
-                    </div>
-                    <% } %>
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Produtos -->
+        <section class="products-section">
+          <div class="products-list">
+            <!-- Produto 1 -->
+            <% for(let i = 0;i < produtos.length;i++) { %>
+            <div class="product-card">
+              <div class="product-image">
+                <img
+                  src="images/produtos/<%= produtos[i].img %>"
+                  alt="<%= produtos[i].nome %>"
+                />
+              </div>
+              <div class="product-info">
+                <h3 class="product-name"><%= produtos[i].nome %></h3>
+                <% if(produtos[i].cor == 'null') { %>
+                <span
+                  ><a href="/produto-single/<%= produtos[i].id %>"
+                    >Escolher Cor e Tamanho</a
+                  ></span
+                >
+                <% } else {%>
+                <span><%= produtos[i].cor %></span>
+                <span><%= produtos[i].tamanho %></span>
+                <% } %>
+                <div class="product-footer">
+                  <span class="product-price"
+                    >R$ <%= produtos[i].preco.toFixed(2) %></span
+                  >
+                  <div class="quantity-control">
+                    <button class="qty-btn">−</button>
+                    <input
+                      type="number"
+                      class="qty-input"
+                      data-id="<%= produtos[i].id %>"
+                      value="<%= produtos[i].qtd %>"
+                      min="1"
+                    />
+                    <button class="qty-btn">+</button>
+                  </div>
                 </div>
-            </section>
+              </div>
+              <button
+                class="remove-btn"
+                data-id="<%= produtos[i].id %>"
+                title="Remover item"
+              >
+                ✕
+              </button>
+            </div>
+            <% } %>
+          </div>
+        </section>
 
-            <!-- Resumo do Carrinho -->
-            <aside class="cart-summary">
-                <h2 class="summary-title">Resumo</h2>
-                
-                <div class="summary-row subtotal">
-                    <span class="summary-label">Subtotal</span>
-                    <span class="summary-value">R$ 0,00</span>
-                </div>
+        <!-- Resumo do Carrinho -->
+        <aside class="cart-summary">
+          <h2 class="summary-title">Resumo</h2>
 
-                <div class="summary-row">
-                    <span class="summary-label">Frete</span>
-                    <span class="summary-value">R$ 0,00</span>
-                </div>
+          <div class="summary-row subtotal">
+            <span class="summary-label">Subtotal</span>
+            <span class="summary-value">R$ 0,00</span>
+          </div>
 
-                <div class="summary-row">
-                    <span class="summary-label">Desconto</span>
-                    <span class="summary-value discount">−R$ 0,00</span>
-                </div>
+          <div class="summary-row">
+            <span class="summary-label">Frete</span>
+            <span class="summary-value">R$ 0,00</span>
+          </div>
 
-                <div class="summary-divider"></div>
+          <div class="summary-row">
+            <span class="summary-label">Desconto</span>
+            <span class="summary-value discount">−R$ 0,00</span>
+          </div>
 
-                <div class="summary-row total">
-                    <span class="summary-label">Total</span>
-                    <span class="summary-value">R$ 0,00</span>
-                </div>
+          <div class="summary-divider"></div>
 
-                <button class="checkout-btn">Finalizar Compra</button>
-                <button class="continue-shopping-btn">Continuar Comprando</button>
+          <div class="summary-row total">
+            <span class="summary-label">Total</span>
+            <span class="summary-value">R$ 0,00</span>
+          </div>
 
-                <div class="payment-methods">
-                    <p class="payment-title">Formas de Pagamento</p>
-                    <div class="payment-icons">
-                        <span class="payment-icon">💳</span>
-                        <span class="payment-icon">🏦</span>
-                        <span class="payment-icon">📱</span>
-                    </div>
-                </div>
-            </aside>
-        </main>
+          <button class="checkout-btn">Finalizar Compra</button>
+          <button class="continue-shopping-btn">Continuar Comprando</button>
+
+          <div class="payment-methods">
+            <p class="payment-title">Formas de Pagamento</p>
+            <div class="payment-icons">
+              <span class="payment-icon">💳</span>
+              <span class="payment-icon">🏦</span>
+              <span class="payment-icon">📱</span>
+            </div>
+          </div>
+        </aside>
+      </main>
     </div>
-    <% } %>
+    <% } %> <% } %>
 
     <script src="js/mobile-menu.js"></script>
     <script src="js/carrinho-page.js"></script>
-</body>
+  </body>
 </html>
