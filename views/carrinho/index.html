@@ -122,7 +122,10 @@
           <div class="products-list">
             <!-- Produto 1 -->
             <% for(let i = 0;i < produtos.length;i++) { %>
-            <div class="product-card">
+            <div
+              class="product-card"
+              onclick="window.location.href = '/produto-single-cart/<%= produtos[i].id %>'"
+            >
               <div class="product-image">
                 <img
                   src="images/produtos/<%= produtos[i].img %>"

@@ -1,9 +1,9 @@
 // Inicializar eventos
-document.addEventListener('DOMContentLoaded', function() {
-    setupQuantityControls();
-    setupRemoveButtons();
-    setupCheckoutButton();
-    updateCartSummary();
+document.addEventListener("DOMContentLoaded", function () {
+  setupQuantityControls();
+  setupRemoveButtons();
+  setupCheckoutButton();
+  updateCartSummary();
 });
 
 // ============================================
@@ -11,45 +11,51 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================
 
 function setupQuantityControls() {
-    const qtyBtns = document.querySelectorAll('.qty-btn');
-    const qtyInputs = document.querySelectorAll('.qty-input');
+  const qtyBtns = document.querySelectorAll(".qty-btn");
+  const qtyInputs = document.querySelectorAll(".qty-input");
 
-    qtyBtns.forEach(btn => {
-        btn.addEventListener('click', async function() {
-            const input = this.parentElement.querySelector('.qty-input');
-            const isIncrement = this.textContent === '+';
-            
-            let value = parseInt(input.value) || 1;
-            if (isIncrement) value++;
-            else if (value > 1) value--;
+  qtyBtns.forEach((btn) => {
+    btn.addEventListener("click", async function (event) {
+      event.stopPropagation(); // 👈 impede ir para o card
 
-            input.value = value;
+      const input = this.parentElement.querySelector(".qty-input");
+      const isIncrement = this.textContent === "+";
 
-            updateCartSummary();
+      let value = parseInt(input.value) || 1;
+      if (isIncrement) value++;
+      else if (value > 1) value--;
 
-            // Atualiza no backend
-            await fetch(`/carrinho/update-qtd`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: input.dataset.id, qtd: value })
-            });
-            
-        });
+      input.value = value;
+
+      updateCartSummary();
+
+      await fetch(`/carrinho/update-qtd`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: input.dataset.id, qtd: value }),
+      });
+    });
+  });
+
+  qtyInputs.forEach((input) => {
+    input.addEventListener("click", function (event) {
+      event.stopPropagation();
     });
 
-    qtyInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            let value = parseInt(this.value) || 1;
-            if (value < 1) value = 1;
-            this.value = value;
-            updateCartSummary();
-        });
+    input.addEventListener("change", function (event) {
+      event.stopPropagation();
 
-        input.addEventListener('input', function() {
-            // Permitir apenas números
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
+      let value = parseInt(this.value) || 1;
+      if (value < 1) value = 1;
+      this.value = value;
+      updateCartSummary();
     });
+
+    input.addEventListener("input", function (event) {
+      event.stopPropagation();
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
+  });
 }
 
 // ============================================
@@ -57,43 +63,36 @@ function setupQuantityControls() {
 // ============================================
 
 function setupRemoveButtons() {
-    const removeButtons = document.querySelectorAll('.remove-btn');
+  const removeButtons = document.querySelectorAll(".remove-btn");
 
-    removeButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const card = this.closest('.product-card');
+  removeButtons.forEach((btn) => {
+    btn.addEventListener("click", function (event) {
+      event.stopPropagation(); // 👈 ESSENCIAL
 
-            // animação
-            card.style.opacity = '0';
-            card.style.transform = 'translateX(20px)';
+      const card = this.closest(".product-card");
 
-            setTimeout(async () => {
-                card.remove();
+      card.style.opacity = "0";
+      card.style.transform = "translateX(20px)";
 
-                const remainingItems = document.querySelectorAll('.product-card');
+      setTimeout(async () => {
+        card.remove();
 
-                if (remainingItems.length === 0) {
-                    showEmptyCart();
-                } else {
-                    updateCartSummary();
-                }
-                updateCartSummary();
+        const remainingItems = document.querySelectorAll(".product-card");
 
-                // BACKEND
-                await fetch(`/carrinho/remove`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: btn.dataset.id })
-                });
+        if (remainingItems.length === 0) {
+          showEmptyCart();
+        } else {
+          updateCartSummary();
+        }
 
-
-                
-
-            }, 300);
-            
-            
+        await fetch(`/carrinho/remove`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: btn.dataset.id }),
         });
+      }, 300);
     });
+  });
 }
 
 // ============================================
@@ -101,32 +100,34 @@ function setupRemoveButtons() {
 // ============================================
 
 function updateCartSummary() {
-    const qtyInputs = document.querySelectorAll('.qty-input');
-    const prices = document.querySelectorAll('.product-price');
+  const qtyInputs = document.querySelectorAll(".qty-input");
+  const prices = document.querySelectorAll(".product-price");
 
-    let subtotal = 0;
+  let subtotal = 0;
 
-    qtyInputs.forEach((input, index) => {
-        const qty = parseInt(input.value) || 1;
-        const priceText = prices[index].textContent
-            .replace('R$ ', '')
-            .replace(',', '.');
+  qtyInputs.forEach((input, index) => {
+    const qty = parseInt(input.value) || 1;
+    const priceText = prices[index].textContent
+      .replace("R$ ", "")
+      .replace(",", ".");
 
-        const price = parseFloat(priceText);
-        subtotal += price * qty;
-    });
+    const price = parseFloat(priceText);
+    subtotal += price * qty;
+  });
 
-    const shipping = 0;
-    const discount = 0;
-    const total = subtotal + shipping - discount;
+  const shipping = 0;
+  const discount = 0;
+  const total = subtotal + shipping - discount;
 
-    // Atualizar subtotal
-    document.querySelector('.summary-row.subtotal .summary-value')
-        .textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+  // Atualizar subtotal
+  document.querySelector(
+    ".summary-row.subtotal .summary-value"
+  ).textContent = `R$ ${subtotal.toFixed(2).replace(".", ",")}`;
 
-    // Atualizar total
-    document.querySelector('.summary-row.total .summary-value')
-        .textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+  // Atualizar total
+  document.querySelector(
+    ".summary-row.total .summary-value"
+  ).textContent = `R$ ${total.toFixed(2).replace(".", ",")}`;
 }
 
 // ============================================
@@ -134,51 +135,51 @@ function updateCartSummary() {
 // ============================================
 
 function setupCheckoutButton() {
-    const checkoutBtn = document.querySelector('.checkout-btn');
-    const continueBtn = document.querySelector('.continue-shopping-btn');
+  const checkoutBtn = document.querySelector(".checkout-btn");
+  const continueBtn = document.querySelector(".continue-shopping-btn");
 
-    checkoutBtn.addEventListener('click', function() {
-        const items = document.querySelectorAll('.product-card').length;
-        
-        if (items === 0) {
-            alert('Seu carrinho está vazio!');
-            return;
-        }
+  checkoutBtn.addEventListener("click", function () {
+    const items = document.querySelectorAll(".product-card").length;
 
-        // Simular clique
-        this.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 100);
+    if (items === 0) {
+      alert("Seu carrinho está vazio!");
+      return;
+    }
 
-        // Mensagem de sucesso
-        showNotification('Redirecionando para o checkout...', 'success');
-        
-        setTimeout(() => {
-            alert('Funcionalidade de checkout seria implementada aqui!');
-        }, 1000);
-    });
+    // Simular clique
+    this.style.transform = "scale(0.98)";
+    setTimeout(() => {
+      this.style.transform = "scale(1)";
+    }, 100);
 
-    continueBtn.addEventListener('click', function() {
-        showNotification('Redirecionando para a loja...', 'info');
-        window.location.href = '/';
-        // Aqui você redirecionaria para a página de produtos
-    });
+    // Mensagem de sucesso
+    showNotification("Redirecionando para o checkout...", "success");
+
+    setTimeout(() => {
+      alert("Funcionalidade de checkout seria implementada aqui!");
+    }, 1000);
+  });
+
+  continueBtn.addEventListener("click", function () {
+    showNotification("Redirecionando para a loja...", "info");
+    window.location.href = "/";
+    // Aqui você redirecionaria para a página de produtos
+  });
 }
 
 // ============================================
 // Notificações
 // ============================================
 
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    notification.style.cssText = `
+function showNotification(message, type = "info") {
+  const notification = document.createElement("div");
+  notification.className = `notification notification-${type}`;
+  notification.textContent = message;
+  notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+        background-color: ${type === "success" ? "#4CAF50" : "#2196F3"};
         color: white;
         padding: 16px 24px;
         border-radius: 8px;
@@ -189,14 +190,14 @@ function showNotification(message, type = 'info') {
         font-weight: 500;
     `;
 
-    document.body.appendChild(notification);
+  document.body.appendChild(notification);
 
+  setTimeout(() => {
+    notification.style.animation = "slideOut 0.3s ease-out";
     setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-out';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
+      notification.remove();
+    }, 300);
+  }, 3000);
 }
 
 // ============================================
@@ -204,9 +205,9 @@ function showNotification(message, type = 'info') {
 // ============================================
 
 function showEmptyCart() {
-    const productsList = document.querySelector('.products-list');
+  const productsList = document.querySelector(".products-list");
 
-    productsList.innerHTML = `
+  productsList.innerHTML = `
         <div style="
             text-align: center;
             padding: 60px 20px;
@@ -222,12 +223,11 @@ function showEmptyCart() {
     `;
 }
 
-
 // ============================================
 // Animações CSS
 // ============================================
 
-const style = document.createElement('style');
+const style = document.createElement("style");
 style.textContent = `
     @keyframes slideIn {
         from {
