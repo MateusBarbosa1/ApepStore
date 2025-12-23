@@ -185,3 +185,41 @@ module.exports.removeCarrinho = async function (app, req, res) {
   // Usuário não autenticado
   res.redirect("/carrinho");
 };
+
+/**
+ * Atualizar Cor e Tamanho do Produto do Carrinho
+ */
+module.exports.updateCarrinhoColorSize = async function (app, req, res) {
+  // Decodificador de JWT
+  const { jwtDecode } = require("jwt-decode");
+
+  // Token do usuário
+  const token = req.cookies["token"];
+
+  // Apenas usuários autenticados podem adicionar produtos
+  if (token) {
+    const usuariosModel = require("../models/usuariosModel");
+
+    const tokenDecoded = jwtDecode(token);
+    const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
+
+    // Usuário válido
+    if (usuario.length !== 0) {
+      const infoProduto = req.body;
+
+      await usuariosModel.updateCarrinho(
+        tokenDecoded.id,
+        infoProduto.id,
+        infoProduto,
+        "all"
+      );
+      return res.status(200).json({ success: true });
+    }
+
+    // Token inválido → remove cookie
+    res.clearCookie("token");
+  }
+
+  // Usuário não autenticado
+  res.redirect("/carrinho");
+};

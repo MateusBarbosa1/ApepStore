@@ -133,13 +133,12 @@
                 <h3 class="product-name"><%= produtos[i].nome %></h3>
                 <% if(produtos[i].cor == 'null') { %>
                 <span
-                  ><a href="/produto-single/<%= produtos[i].id %>"
+                  ><a href="/produto-single-cart/<%= produtos[i].id %>"
                     >Escolher Cor e Tamanho</a
                   ></span
                 >
                 <% } else {%>
-                <span><%= produtos[i].cor %></span>
-                <span><%= produtos[i].tamanho %></span>
+                <span><%= produtos[i].cor %> | <%= produtos[i].tamanho %></span>
                 <% } %>
                 <div class="product-footer">
                   <span class="product-price"

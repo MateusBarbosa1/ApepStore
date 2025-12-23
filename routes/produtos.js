@@ -3,6 +3,9 @@ module.exports = function (app) {
   app.get("/produto-single/:id", (req, res) => {
     produtosControllers.renderPageProdutoSingle(app, req, res);
   });
+  app.get("/produto-single-cart/:id", (req, res) => {
+    produtosControllers.renderPageProdutoSingle(app, req, res);
+  });
   app.get("/camisetas", (req, res) => {
     produtosControllers.renderPageCamisetas(app, req, res);
   });

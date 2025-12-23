@@ -33,7 +33,7 @@ Ele permite gerenciar produtos, usuários, carrinho de compras e autenticação,
 ├─ public/ # Arquivos públicos (imagens, CSS, JS)  
 ├─ views/ # Templates EJS ou HTML  
 ├─ .env # Variáveis de ambiente  
-└─ server.js # Configuração do servidor Express  
+└─ server.js # Configuração do servidor Express
 
 ---
 
@@ -67,27 +67,27 @@ Ele permite gerenciar produtos, usuários, carrinho de compras e autenticação,
 
 **Usuários (`usuarios`)**
 
-| Campo       | Tipo          | Descrição                    |
-|------------ |--------------|------------------------------|
-| id          | Int (PK)     | ID do usuário               |
-| nome        | String       | Nome completo               |
-| email       | String       | Email (único)               |
-| senha       | String       | Senha criptografada         |
-| carrinho    | Array[Int]   | IDs dos produtos no carrinho|
+| Campo    | Tipo       | Descrição                    |
+| -------- | ---------- | ---------------------------- |
+| id       | Int (PK)   | ID do usuário                |
+| nome     | String     | Nome completo                |
+| email    | String     | Email (único)                |
+| senha    | String     | Senha criptografada          |
+| carrinho | Array[Int] | IDs dos produtos no carrinho |
 
 **Produtos (`produtos`)**
 
-| Campo          | Tipo          | Descrição                     |
-|----------------|--------------|-------------------------------|
-| id_produto     | Int (PK)     | ID do produto                |
-| nome_produto   | String       | Nome do produto              |
-| descricao      | String       | Descrição detalhada          |
-| categoria      | String       | Categoria (camisetas, sapatos etc.) |
-| preco          | Float        | Preço do produto             |
-| img            | String       | Nome da imagem               |
-| cores          | Array        | Array de cores {nome, hex}  |
-| tamanhos       | Array        | Array de tamanhos disponíveis|
-| material       | String       | Material do produto          |
+| Campo        | Tipo     | Descrição                           |
+| ------------ | -------- | ----------------------------------- |
+| id_produto   | Int (PK) | ID do produto                       |
+| nome_produto | String   | Nome do produto                     |
+| descricao    | String   | Descrição detalhada                 |
+| categoria    | String   | Categoria (camisetas, sapatos etc.) |
+| preco        | Float    | Preço do produto                    |
+| img          | String   | Nome da imagem                      |
+| cores        | Array    | Array de cores {nome, hex}          |
+| tamanhos     | Array    | Array de tamanhos disponíveis       |
+| material     | String   | Material do produto                 |
 
 ---
 
@@ -105,91 +105,97 @@ DATABASE_URL=<url_do_banco_postgres>
 
 ### Usuário
 
-| Método | Endpoint          | Descrição                   |  
-|--------|-------------------|-----------------------------|  
-| GET    | /login            | Página de login             |  
-| GET    | /register         | Página de cadastro          |  
-| POST   | /login            | Autenticação do usuário     |  
-| POST   | /register         | Criação de novo usuário     |  
-| GET    | /account          | Página da conta do usuário  |  
-| GET   | /account/delete    | Deletar conta do usuário    |  
-| GET   | /account/logout    | Sai da conta do usuário     |  
+| Método | Endpoint        | Descrição                  |
+| ------ | --------------- | -------------------------- |
+| GET    | /login          | Página de login            |
+| GET    | /register       | Página de cadastro         |
+| POST   | /login          | Autenticação do usuário    |
+| POST   | /register       | Criação de novo usuário    |
+| GET    | /account        | Página da conta do usuário |
+| GET    | /account/delete | Deletar conta do usuário   |
+| GET    | /account/logout | Sai da conta do usuário    |
 
 ### Produtos
 
-| Método | Endpoint                         | Descrição                           |  
-|--------|----------------------------------|-------------------------------------|  
-| GET    | /produtos                        | Lista todos os produtos             |  
-| GET    | /produto-single/:id                    | Página de um produto específico     |  
-| GET    | /camisetas   | Lista todas as camisetas        |  
-| GET    | /sapatos   | Lista todos os sapatos        |  
-| GET    | /roupas-femininas   | Lista todas as roupas femininas        |  
+| Método | Endpoint            | Descrição                       |
+| ------ | ------------------- | ------------------------------- |
+| GET    | /all-roupas         | Lista todas as roupas           |
+| GET    | /produto-single/:id | Página de um produto específico |
+| GET    | /camisetas          | Lista todas as camisetas        |
+| GET    | /sapatos            | Lista todos os sapatos          |
+| GET    | /roupas-femininas   | Lista todas as roupas femininas |
 
-### Carrinho  
+### Carrinho
 
-| Método | Endpoint             | Descrição                     |  
-|--------|----------------------|-------------------------------|  
-| GET    | /carrinho            | Página do carrinho            |  
-| POST   | /add-carrinho    | Adiciona produto ao carrinho  |  
-| POST   | /carrinho/update-qtd    | Atualiza quantidade do produto no carrinho  |  
-| POST   | /carrinho/remove    | Remove produto do carrinho  |  
+| Método | Endpoint             | Descrição                                  |
+| ------ | -------------------- | ------------------------------------------ |
+| GET    | /carrinho            | Página do carrinho                         |
+| POST   | /add-carrinho        | Adiciona produto ao carrinho               |
+| POST   | /carrinho/update-qtd | Atualiza quantidade do produto no carrinho |
+| POST   | /carrinho/remove     | Remove produto do carrinho                 |
 
 ### Rotas de Administração (Admin)
 
 #### Autenticação
 
-| Método | Endpoint        | Descrição                         |
-|--------|-----------------|-----------------------------------|
-| GET    | /admin          | Renderiza a página de login admin |
-| POST   | /admin          | Autentica o administrador         |
+| Método | Endpoint | Descrição                         |
+| ------ | -------- | --------------------------------- |
+| GET    | /admin   | Renderiza a página de login admin |
+| POST   | /admin   | Autentica o administrador         |
 
 ---
 
 #### Usuários
 
-| Método | Endpoint                     | Descrição                                  |
-|--------|------------------------------|--------------------------------------------|
-| GET    | /admin/getAllUsers           | Lista todos os usuários (HTML / body)      |
-| GET    | /admin/getAllUsersJSON       | Lista todos os usuários em formato JSON    |
-| POST   | /admin/getAllUsers/delete    | Deleta um usuário                          |
+| Método | Endpoint                  | Descrição                               |
+| ------ | ------------------------- | --------------------------------------- |
+| GET    | /admin/getAllUsers        | Lista todos os usuários (HTML / body)   |
+| GET    | /admin/getAllUsersJSON    | Lista todos os usuários em formato JSON |
+| POST   | /admin/getAllUsers/delete | Deleta um usuário                       |
 
 ---
 
 #### Produtos
 
-| Método | Endpoint                    | Descrição                                   |
-|--------|-----------------------------|---------------------------------------------|
-| GET    | /admin/getProdutos          | Lista todos os produtos (HTML / body)       |
-| GET    | /admin/getProdutosJSON      | Lista todos os produtos em formato JSON     |
-| GET    | /admin/createProduct        | Renderiza página de criação de produto      |
-| POST   | /admin/createProduct        | Cria um novo produto (com upload de imagem) |
-| POST   | /admin/getProdutos/delete   | Deleta um produto existente                 |
-| POST   | /admin/getProdutos/update   | Atualiza um produto existente               |
-
-
-
+| Método | Endpoint                  | Descrição                                   |
+| ------ | ------------------------- | ------------------------------------------- |
+| GET    | /admin/getProdutos        | Lista todos os produtos (HTML / body)       |
+| GET    | /admin/getProdutosJSON    | Lista todos os produtos em formato JSON     |
+| GET    | /admin/createProduct      | Renderiza página de criação de produto      |
+| POST   | /admin/createProduct      | Cria um novo produto (com upload de imagem) |
+| POST   | /admin/getProdutos/delete | Deleta um produto existente                 |
+| POST   | /admin/getProdutos/update | Atualiza um produto existente               |
 
 ## Instalação
 
 1. Clone o repositório:
+
 ```bash
 git clone <repo_url>
 cd <repo_folder>
 ```
+
 2. Instale as dependências:
+
 ```bash
 npm install
 ```
+
 3. Configure o **.env** com suas variáveis de ambiente.
 4. Inicialize o Prisma e o banco de dados:
+
 ```bash
 npx prisma migrate dev --name init
 ```
-5. Inicie o servidor: 
+
+5. Inicie o servidor:
+
 ```bash
 npm run dev
 ```
-5. Acesse o navegador: 
+
+5. Acesse o navegador:
+
 ```bash
 http://localhost:3000
 ```
