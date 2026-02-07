@@ -14,6 +14,8 @@ app.set("view engine", "html");
 app.use(express.static(path.join(__dirname, "./public")));
 app.set("views", path.join(__dirname, "./views"));
 
+app.get('/heath' (req,res) => res.json({ ok: true }));
+
 const routesPath = path.join(__dirname, 'routes');
 
 fs.readdirSync(routesPath).forEach((file) => {
