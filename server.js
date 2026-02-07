@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const fs = require('fs');
-const cookieParser = require('cookie-parser');
+const fs = require("fs");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const path = require("path");
@@ -14,42 +14,42 @@ app.set("view engine", "html");
 app.use(express.static(path.join(__dirname, "./public")));
 app.set("views", path.join(__dirname, "./views"));
 
-app.get('/heath' (req,res) => res.json({ ok: true }));
+app.get("/heath", (req, res) => res.json({ ok: true }));
 
-const routesPath = path.join(__dirname, 'routes');
+const routesPath = path.join(__dirname, "routes");
 
 fs.readdirSync(routesPath).forEach((file) => {
-    if(file.endsWith('.js')) {
-        try {
-            require(path.join(routesPath, file))(app);
-            console.log("Loaded route:", file);
-        } catch (err) {
-            console.error("Erro ao carregar rota:", file);
-            console.error(err);
-        }
+  if (file.endsWith(".js")) {
+    try {
+      require(path.join(routesPath, file))(app);
+      console.log("Loaded route:", file);
+    } catch (err) {
+      console.error("Erro ao carregar rota:", file);
+      console.error(err);
     }
+  }
 });
 
 app.use(async (req, res) => {
-    const { jwtDecode } = require('jwt-decode');
-    const token = req.cookies['token'];
+  const { jwtDecode } = require("jwt-decode");
+  const token = req.cookies["token"];
 
-    if (token) {
-        try {
-            const usuariosModel = require('./models/usuariosModel');
-            const tokenDecoded = jwtDecode(token);
-            const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
+  if (token) {
+    try {
+      const usuariosModel = require("./models/usuariosModel");
+      const tokenDecoded = jwtDecode(token);
+      const usuario = await usuariosModel.getUsuarioID(tokenDecoded.id);
 
-            if (usuario.length !== 0) {
-                const firstName = usuario[0].nome.split(' ')[0];
-                return res.status(404).render('404', { nome: firstName });
-            }
-        } catch (err) {
-            res.clearCookie('token');
-        }
+      if (usuario.length !== 0) {
+        const firstName = usuario[0].nome.split(" ")[0];
+        return res.status(404).render("404", { nome: firstName });
+      }
+    } catch (err) {
+      res.clearCookie("token");
     }
+  }
 
-    return res.status(404).render('404', { nome: false });
+  return res.status(404).render("404", { nome: false });
 });
 
 app.listen(3000, "0.0.0.0", () => {
