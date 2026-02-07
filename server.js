@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const app = express();
 const path = require("path");
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
